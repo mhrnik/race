@@ -6,6 +6,7 @@ Figma designs to replicate: https://www.figma.com/file/CPfZkeob1dtxStjSuUUXDs/Hy
 
 ## Getting Started
 
+### Dev enviroment
 First, clone the repo into a new folder (if you haven't yet):
 
 ```sh
@@ -15,16 +16,25 @@ git clone https://github.com/hyper-scale/race.git .
 Next start dev enviroment:
 
 ```sh
-docker-compose up -d
+$ docker-compose up -d --build
 ```
 
-If you prefer to develop without the docker you can start mongodb only with:
-
+Verify that mongo and web services are running:
 ```
-docker-compose up -d mongo
+$ docker-compose ps
+          Name                        Command                  State                          Ports
+-----------------------------------------------------------------------------------------------------------------------
+mongo                      docker-entrypoint.sh mongod      Up (healthy)   0.0.0.0:27017->27017/tcp,:::27017->27017/tcp
+race_direct_mongo_seed_1   docker-entrypoint.sh /mong ...   Exit 0
+web                        docker-entrypoint.sh sh -c ...   Up             0.0.0.0:3000->3000/tcp,:::3000->3000/tcp
 ```
 
-MongoDB is pre-populated with test data.
+You might need to wait a minute while `web` installs its dependencies.
+
+Access `web` logs with `docker-compose logs web`.
+
+`mongo_seed` should be in `Exit 0` as it is used for populating mongodb. More in `Test data` section below.
+MongoDB is already pre-populated with test data.
 
 You can now open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
@@ -34,10 +44,9 @@ You can now open [http://localhost:3000](http://localhost:3000) in your browser 
 
 - The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Seed DB
+### Test data
 
-If you are using MongoDB with docker-compose the test data is already there.
-In case you want to change test data just modify json files in mongo/seed and run:
+The test data is already there but if you want to update it or test some missing case just modify json files in mongo/seed and run:
 
 ```
 docker-compose up mongo_seed
@@ -49,42 +58,22 @@ docker-compose up mongo_seed
 Set up:
 1. Create a custom [Discord application](https://discord.com/developers/applications)
 2. Add the redirect URI `http://localhost:3000/api/auth/callback/discord`to the Discord application (under the OAuth section)
-3. Copy `.env.example` to `.env.local` and replace XXXX with actually values from Discord application
+3. Replace XXXX with actually values from Discord application in .env.docker and rebuild the services with `docker-compose -d up --build`.
 
 ## Linting and formatting
 
-Don't forget to lint the code!
+Don't forget to check your code before creating a Pull Request:
 
-### Formatting
+```sh
+docker-compose exec web yarn lint
+```
+
+That lints scripts, styles and checks formatting..
 
 [Prettier](https://prettier.io) is being used for automatically formatting the code.
 To apply prettier, you can run:
 ```sh
-yarn format
-```
-
-### Scripts
-
-To lint the JavaScript code, run:
-
-```sh
-docker-compose exec web yarn lint:scripts
-```
-or for dev without docker:
-```sh
-yarn lint:scripts
-```
-
-### Styles
-
-To lint styles with [stylelint](https://stylelint.io), run:
-
-```sh
-docker-compose exec web yarn lint:styles
-```
-or for dev without docker:
-```sh
-yarn lint:styles
+docker-compose exec web yarn format
 ```
 
 ## Contributing
@@ -104,8 +93,6 @@ Contribution process borrows from [Collective Code Construction Contract](https:
 * Maintainers shall merge correct patches from other contributors rapidly.
 * Maintainers should ask for improvements to incorrect patches and should reject incorrect patches if the contributor does not respond constructively.
 * Any contributor who has value judgments on a correct patch should express these via their own patches.
-
-TODO
 
 ## License
 

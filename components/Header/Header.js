@@ -4,34 +4,19 @@ import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { useSession, signIn, signOut } from "next-auth/react";
-
-const connectWallet = () => alert(`Coming soon!`);
+import Button from "../atoms/Button";
 
 export default function Header() {
   const { data: _, status } = useSession();
 
-  let mainButton = (
-    <button
-      className="inline-flex items-center px-4 py-2 border border-transparent font-medium rounded shadow-sm text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      onClick={() => signIn("discord")}
-    >
-      Connect Discord
-    </button>
-  );
+  const discordBtnProps = {
+    text: status === "authenticated" ? "Sign Out" : "Connect Discord",
+    onClick: status === "authenticated" ? () => signOut("discord") : () => signIn("discord"),
+  };
 
-  if (status === "authenticated") {
-    mainButton = (
-      <button
-        className="inline-flex items-center px-4 py-2 border border-transparent font-medium rounded shadow-sm text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        onClick={() => signOut("discord")}
-      >
-        Sign Out
-      </button>
-    );
-  }
   return (
     <nav>
-      <Popover className="flex items-center justify-between">
+      <Popover className="flex items-center justify-items-center justify-between">
         <Link href="/">
           <a className="flex items-center gap-x-4">
             <Image src="/logo.svg" width="60" height="60" alt="" />
@@ -39,19 +24,7 @@ export default function Header() {
           </a>
         </Link>
         {/* Desktop Navigation */}
-        <div className="hidden md:flex md:items-center md:space-x-4">
-          <Link
-            href="/"
-            className="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-opacity-30"
-          >
-            Home
-          </Link>
-          <Link
-            href="/dao-race"
-            className="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-opacity-30"
-          >
-            DAO Race
-          </Link>
+        <div className="hidden md:flex md:items-center md:space-x-4 text-redrose">
           <a
             href="https://twitter.com/HyperscaleFund"
             className="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-opacity-30"
@@ -68,7 +41,9 @@ export default function Header() {
           >
             Discord
           </a>
-          {mainButton}
+          <Button color="primary" onClick={discordBtnProps.onClick}>
+            {discordBtnProps.text}
+          </Button>
         </div>
         {/* Mobile Navigation */}
         <div className="-mr-2 flex items-center md:hidden">
@@ -108,16 +83,6 @@ export default function Header() {
                 </div>
               </div>
               <div className="px-2 pt-2 pb-3 space-y-1">
-                <Link href="/">
-                  <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
-                    Home
-                  </a>
-                </Link>
-                <Link href="/dao-race">
-                  <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">
-                    DAO Race
-                  </a>
-                </Link>
                 <a
                   href="https://twitter.com/HyperscaleFund"
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
@@ -135,12 +100,9 @@ export default function Header() {
                   Discord
                 </a>
               </div>
-              <button
-                className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                onClick={connectWallet}
-              >
-                Connect Discord
-              </button>
+              <Button color="primary" onClick={discordBtnProps.onClick}>
+                {discordBtnProps.text}
+              </Button>
             </div>
           </Popover.Panel>
         </Transition>

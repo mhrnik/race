@@ -1,32 +1,41 @@
-import Link from "next/link";
+import React from "react";
 import DataTable from "react-data-table-component";
-import Breadcrumbs from "../Breadcrumbs";
-// A super simple expandable component.{JSON.stringify(data, null, 2)}
-const ExpandedComponent = ({ data }) => (
-  <div className="p-6 top-border row-child">
-    <div>
-      <label className="font-bold">
-        <b>Submitted by</b>
-      </label>{" "}
-      <a className="float-right" href="#">
-        Website.com
-      </a>
-      <p className="pb-4">@{data.discordId}</p>
-      <label className="font-bold">
-        <b>Project name</b>
-      </label>{" "}
-      <a className="float-right" href="#">
-        Discord.com/server
-      </a>
-      <p className="pb-4">@{data.projectName}</p>
-    </div>
+import Button from "../atoms/Button";
+import { useRouter } from "next/router";
 
-    <label className="font-bold">Pitch us your project in a tweet</label>
-    <p>{data.projectTweet}</p>
-    <br />
-    <Link href={{ pathname: "/dao-race/[id]", query: { id: data._id } }}>View full application</Link>
-  </div>
-);
+// A super simple expandable component.{JSON.stringify(data, null, 2)}
+const ExpandedComponent = ({ data }) => {
+  const router = useRouter();
+  return (
+    <div className="p-6 top-border row-child">
+      <div className="flex gap-x-12 mb-2">
+        <div className="basis-1/3">
+          <dl>
+            <dt className="font-semibold">Pitch us your project in a tweet</dt>
+            <dd className="mb-5">{data.productPitch || "N.A."}</dd>
+          </dl>
+        </div>
+        <div className="basis-2/3">
+          <dl>
+            <dt className="font-semibold">Background of each founder</dt>
+            <dd className="mb-5">{data.evidenceOfExceptionalAbility || "N.A"}</dd>
+          </dl>
+        </div>
+      </div>
+      <div className="flex gap-x-12 mb-2">
+        <div className="basis-1/3">{/*  links go here */}</div>
+        <div className="basis-2/3">
+          <Button
+            color="primary-outline"
+            onClick={() => router.push({ pathname: "/dao-race/[id]", query: { id: data._id } })}
+          >
+            View Full Application
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 //  Internally, customStyles will deep merges your customStyles with the default styling.
 const customStyles = {
@@ -37,7 +46,25 @@ const customStyles = {
       marginBottom: "0.95rem",
     },
   },
-
+  headRow: {
+    style: {
+      minHeight: "72px",
+      background: "#00000005",
+      border: "0 !important",
+      borderRadius: "0.5rem",
+      width: "calc(100% - 25px)",
+      margin: "0.45rem 0.75rem",
+    },
+  },
+  headCells: {
+    style: {
+      paddingLeft: "8px",
+      paddingRight: "8px",
+      color: "#6b7280",
+      fontWeight: "bold",
+      fontSize: "1rem",
+    },
+  },
   rows: {
     style: {
       minHeight: "72px",
@@ -48,17 +75,10 @@ const customStyles = {
       width: "calc(100% - 25px)",
       margin: "0.45rem 0.75rem",
       borderRadius: "0.5rem",
+      fontWeight: "bold",
     },
   },
-  headCells: {
-    style: {
-      paddingLeft: "8px",
-      paddingRight: "8px",
-      fontSize: "0.8rem",
-      color: "#000000",
-      marginBottom: "0.5rem",
-    },
-  },
+
   cells: {
     style: {
       paddingLeft: "8px",
@@ -75,6 +95,21 @@ const columns = [
     selector: (row) => row.rank,
   },
   {
+    name: "Votes",
+    selector: (row) => (
+      <label
+        className="vote-badge"
+        style={{
+          background: "rgb(228, 241, 252)",
+          background:
+            "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
+        }}
+      >
+        {row.voteCount}
+      </label>
+    ),
+  },
+  {
     name: "Name",
     selector: (row) => row.projectName,
   },
@@ -82,45 +117,28 @@ const columns = [
     name: "Submitted by",
     selector: (row) => row.discordId,
   },
-  {
-    name: "Date submitted",
-    selector: (row) => row.submittedAt,
-  },
-  {
-    name: "Votes",
-    selector: (row) => <label className="vote-badge">{row.voteCount}</label>,
-  },
+  // {
+  //   name: "Date submitted",
+  //   selector: (row) => row.submittedAt,
+  // },
 ];
 
-const breadcrumbs = [
-  { url: "/", text: "Home" },
-  { url: "", text: "DAO Race" },
-];
-
-const Leaderboard = ({ data }) => {
+const Leaderboard = ({ data, numRows }) => {
+  let rows = JSON.parse(JSON.stringify(data));
+  if (numRows) {
+    rows = rows.slice(0, numRows);
+  }
+  console.log(rows);
   return (
-    <div className="main">
-      <Breadcrumbs list={breadcrumbs} />
-      <div className="leaderboard-list">
-        <div className="flex flex-row">
-          <div className="basis-3/4">
-            <h2 className=" text-3xl font-extrabold text-gray-900">Trending DAOs</h2>
-          </div>
-          <div className="basis-1/4 flex  tab-filter">
-            <div className=" font-bold active pr-2">Most voted</div>
-            <div className="pl-2">Most recent</div>
-          </div>
-        </div>
-        <div className="dtable">
-          <DataTable
-            customStyles={customStyles}
-            columns={columns}
-            data={data}
-            expandableRows
-            expandableRowsComponent={ExpandedComponent}
-            pagination
-          />
-        </div>
+    <div className="leaderboard-list">
+      <div className="dtable">
+        <DataTable
+          customStyles={customStyles}
+          columns={columns}
+          data={rows}
+          expandableRows
+          expandableRowsComponent={ExpandedComponent}
+        />
       </div>
     </div>
   );

@@ -25,35 +25,36 @@ export async function getApplications(query, email) {
       $addFields: {
         // Add the vote count to the application
         voteCount: { $size: "$votes" },
-        
+
         // Indicate if user has alredy voted based on email
-        hasUserUpvoted: email ? { $in: [email, "$votes"] } : false
-      }
+        hasUserUpvoted: email ? { $in: [email, "$votes"] } : false,
+      },
     },
 
     // Don't make emails of voters public
     { $unset: "votes" },
 
-    {
-      $setWindowFields: {
-        // Sort by most votes first
-         sortBy: { voteCount: -1 },
-
-        // Add rank based off of vote count
-         output: {
-            rank: {
-               $rank: {}
-            }
-         }
-      }
-   }
+    // Sort by most votes first
+    { $sort: { voteCount: -1 } }
   ];
 
-  if(query) {
-    pipeline.unshift({ $match: query })
+  if (query) {
+    pipeline.unshift({ $match: query });
   }
 
-  return Application.aggregate(pipeline);
+  const aggregate = await Application.aggregate(pipeline);
+  if (aggregate.length > 0) {
+    var lastVoteCount = aggregate[0].voteCount;
+    var lastRank = 1;
+    aggregate.forEach(function(application, index) {
+      if (application.voteCount != lastVoteCount) {
+        lastVoteCount = application.voteCount;
+        lastRank = lastRank + 1
+      }
+      application.rank = lastRank;
+    });
+  }
+  return aggregate;
 }
 
 // query selected applications
@@ -66,7 +67,7 @@ export async function addVote(applicationId, voterEmail) {
   const Application = require("../../models/Application");
   return Application.findOneAndUpdate(
     // Find application by Id
-    { _id: applicationId }, 
+    { _id: applicationId },
 
     // Add to set so the same email will not be added twice
     { $addToSet: { votes: voterEmail } }

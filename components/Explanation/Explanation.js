@@ -1,13 +1,10 @@
 const Explanation = () => {
   return (
     <>
-      <div className="font-bold text-4xl">DAO Race</div>
-      <div className="">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+      <h1 className="text-3xl sm:text-5xl">DAO Race</h1>
+      <div className="text-lg mt-6">
+        Mirror DAO created a write race where writers who can assemble strong audiences win. We’ve build a DAO race
+        where DAOs who can assemble strong communities win.
       </div>
     </>
   );
