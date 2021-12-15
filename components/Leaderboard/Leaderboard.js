@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 // A super simple expandable component.{JSON.stringify(data, null, 2)}
 const ExpandedComponent = ({ data }) => {
   const router = useRouter();
+  const links = data.helpfulLinks?.split(",") ?? [];
   return (
     <div className="p-6 top-border row-child">
       <div className="flex gap-x-12 mb-2">
@@ -23,7 +24,19 @@ const ExpandedComponent = ({ data }) => {
         </div>
       </div>
       <div className="flex gap-x-12 mb-2">
-        <div className="basis-1/3">{/*  links go here */}</div>
+        <div className="basis-1/3">
+          {links && (
+            <ul>
+              {links.map((link, i) => (
+                <li key={`link-${i}`}>
+                  <a href={link.trim()} target="_blank" rel="noreferrer">
+                    {link.trim()}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <div className="basis-2/3">
           <Button
             color="primary-outline"
@@ -111,11 +124,11 @@ const columns = [
   },
   {
     name: "Name",
-    selector: (row) => row.projectName,
+    selector: (row) => row.projectName ?? placeholderDiv,
   },
   {
     name: "Submitted by",
-    selector: (row) => row.discordId,
+    selector: (row) => row.discordId ?? placeholderDiv,
   },
   // {
   //   name: "Date submitted",
@@ -123,12 +136,20 @@ const columns = [
   // },
 ];
 
+const placeholderDiv = (
+  <div
+    className="h-3 w-3/5 animate-pulse"
+    style={{
+      background: "linear-gradient(90deg, #E5E5E5 0%, rgba(255,255,255,1) 100%)",
+    }}
+  ></div>
+);
+
 const Leaderboard = ({ data, numRows }) => {
   let rows = JSON.parse(JSON.stringify(data));
   if (numRows) {
     rows = rows.slice(0, numRows);
   }
-  console.log(rows);
   return (
     <div className="leaderboard-list">
       <div className="dtable">
