@@ -109,7 +109,7 @@ h6 {
   [data-column-id="colSdVotes"] {
     display: flex !important;
   }
-  
+
   [data-column-id="colLdVotes"] {
     display: none !important;
   }
