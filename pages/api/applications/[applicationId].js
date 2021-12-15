@@ -1,5 +1,5 @@
 import Application from "../../../models/Application";
-import { queryWithSession } from "../../../utils/queryWithSession";
+import queryWithSession from "../../../utils/queryWithSession";
 import { Types } from "mongoose";
 
 export default async function handler(req, res) {
