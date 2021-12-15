@@ -9,7 +9,7 @@ const ExpandedComponent = ({ data }) => {
   const links = data.helpfulLinks?.split(",") ?? [];
   return (
     <div className="p-6 top-border row-child">
-      <div className="flex gap-x-12 mb-2">
+      <div className="flex-row md:flex gap-x-12 mb-2">
         <div className="basis-1/3">
           <dl>
             <dt className="font-semibold">Pitch us your project in a tweet</dt>
@@ -108,7 +108,31 @@ const columns = [
     selector: (row) => row.rank,
   },
   {
+    id: "colLdVotes",
     name: "Votes",
+
+    selector: (row) => (
+      <label
+        className="vote-badge"
+        style={{
+          background: "rgb(228, 241, 252)",
+          background:
+            "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
+        }}
+      >
+        {row.voteCount}
+      </label>
+    ),
+  },
+
+  {
+    name: "Name",
+    selector: (row) => row.projectName ?? placeholderDiv,
+  },
+  {
+    id: "colSdVotes",
+    name: "Votes",
+
     selector: (row) => (
       <label
         className="vote-badge"
@@ -123,11 +147,8 @@ const columns = [
     ),
   },
   {
-    name: "Name",
-    selector: (row) => row.projectName ?? placeholderDiv,
-  },
-  {
     name: "Submitted by",
+    hide: "md",
     selector: (row) => row.discordId ?? placeholderDiv,
   },
   // {
