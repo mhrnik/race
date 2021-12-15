@@ -1,12 +1,14 @@
-module.exports = api => {
-  const isTest = api.env('test');
-  // You can use isTest to determine what presets and plugins to use.
+module.exports = (api) => {
+  const isTest = api.env("test");
 
-  if (isTest)
-  {return {
-    presets: [['@babel/preset-env', {targets: {node: 'current'}}]],
-  };
+  if (isTest) {
+    return {
+      presets: [["@babel/preset-env", { targets: { node: "current" } }]],
+    };
   }
 
-  return {}
+  return {
+    presets: ["next/babel"],
+    plugins: [],
+  };
 };
