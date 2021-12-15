@@ -5,7 +5,7 @@ const FileUploader = () => {
         <img className="ratio ratio-1x1" src="Vector.png"></img>
 
         <input className="file grow hidden" type="file" id="files" multiple />
-        <label for="files" style={{ color: "#5F75EE" }}>
+        <label htmlFor="files" style={{ color: "#5F75EE" }}>
           Browse
         </label>
       </div>
