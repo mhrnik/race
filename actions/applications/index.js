@@ -1,25 +1,31 @@
-import dbConnect from "../../utils/dbConnect";
+import Application from "../../models/Application";
+import { queryWithSession } from "../../utils/queryWithSession";
 import { Types } from "mongoose";
 
 // this function upsert a list of records, used for syncing data
 export async function upsertApplications(records) {
-  await dbConnect();
-  const Application = require("../../models/Application");
   const results = [];
   for (const record of records) {
     const { projectName } = record;
-    const data = await Application.findOneAndUpdate({ projectName }, record, {
-      upsert: true,
-    });
-    results.push(data);
+
+    const { result, error } = await queryWithSession((session) =>
+      Application.findOneAndUpdate({ projectName }, record, {
+        upsert: true,
+      })
+    );
+
+    if (error) {
+      // TODO: Handle error
+      console.error("Failed to upsertApplications", error);
+    }
+
+    results.push(result);
   }
   return results;
 }
 
 // query all applications
 export async function getApplications(query, email) {
-  await dbConnect();
-  const Application = require("../../models/Application");
   const pipeline = [
     {
       $addFields: {
@@ -35,21 +41,27 @@ export async function getApplications(query, email) {
     { $unset: "votes" },
 
     // Sort by most votes first
-    { $sort: { voteCount: -1 } }
+    { $sort: { voteCount: -1 } },
   ];
 
   if (query) {
     pipeline.unshift({ $match: query });
   }
 
-  const aggregate = await Application.aggregate(pipeline);
+  const { result: aggregate, error } = await queryWithSession((session) => Application.aggregate(pipeline));
+
+  if (error) {
+    // TODO: Handle error
+    console.error("Failed to get applications", error);
+  }
+
   if (aggregate.length > 0) {
     var lastVoteCount = aggregate[0].voteCount;
     var lastRank = 1;
-    aggregate.forEach(function(application, index) {
+    aggregate.forEach(function (application, index) {
       if (application.voteCount != lastVoteCount) {
         lastVoteCount = application.voteCount;
-        lastRank = lastRank + 1
+        lastRank = lastRank + 1;
       }
       application.rank = lastRank;
     });
@@ -63,13 +75,20 @@ export async function getSelectedApplications(applicationId, email) {
 }
 
 export async function addVote(applicationId, voterEmail) {
-  await dbConnect();
-  const Application = require("../../models/Application");
-  return Application.findOneAndUpdate(
-    // Find application by Id
-    { _id: applicationId },
+  const { result, error } = await queryWithSession((session) =>
+    Application.findOneAndUpdate(
+      // Find application by Id
+      { _id: applicationId },
 
-    // Add to set so the same email will not be added twice
-    { $addToSet: { votes: voterEmail } }
+      // Add to set so the same email will not be added twice
+      { $addToSet: { votes: voterEmail } }
+    )
   );
+
+  if (error) {
+    // TODO: Handle error
+    console.error("Failed to add vote to application", error);
+  }
+
+  return result;
 }
