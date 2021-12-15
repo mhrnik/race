@@ -76,6 +76,14 @@ To apply prettier, you can run:
 docker-compose exec web yarn format
 ```
 
+## Testing
+
+Unit tests, ran by [jest](https://jestjs.io), can be executed by:
+
+```sh
+docker-compose exec web yarn test # or test:watch for running tests in watch-mode
+```
+
 ## Contributing
 
 Pull Requests are welcome and encouraged! Make an issue first, and create a PR to assign it to yourself. Mark it for review when ready and we'll check to merge it.

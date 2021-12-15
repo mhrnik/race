@@ -8,11 +8,12 @@
     "lint": "concurrently yarn:lint:*",
     "lint:scripts": "next lint",
     "lint:styles": "stylelint styles/**/*.css",
-    "lint:format": "prettier --check components models pages styles utils",
+    "lint:format": "prettier --check actions components models pages styles utils",
     "format": "concurrently yarn:format:*",
-    "format:scripts": "prettier --write components models pages utils",
+    "format:scripts": "prettier --write actions components models pages utils",
     "format:styles": "prettier --write styles",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
