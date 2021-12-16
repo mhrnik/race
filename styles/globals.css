@@ -117,6 +117,13 @@ h6 {
 }
 
 @media only screen and (max-width: 640px) {
+  .rdt_TableHeadRow,
+  .rdt_TableRow {
+    width: 98% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
   .text-highlight {
     border-bottom: 10px solid #ffd17f;
   }

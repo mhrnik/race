@@ -63,10 +63,10 @@ export default function Home({ projects }) {
         </div>
       </div>
       <div className="flex justify-center">
-        <div className="w-full max-w-7xl px-4 xl:px-0">
+        <div className="w-full max-w-7xl px-0 md:px-4 xl:px-0">
           <h2 className="text-4xl font-extrabold text-gray-900 text-center mt-12">Trending DAOs</h2>
           <Leaderboard data={projects} numRows={5} />
-          <div className="mt-4 text-center">
+          <div className="mt-4 text-center px-4">
             <LeaderboardButton />
           </div>
         </div>
