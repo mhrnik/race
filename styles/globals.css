@@ -80,6 +80,7 @@ h6 {
 .dtable .vote-badge {
   border-radius: 0.25rem;
   padding: 0.25rem 0.5rem;
+  display: inline-block;
 }
 
 .top-border {
