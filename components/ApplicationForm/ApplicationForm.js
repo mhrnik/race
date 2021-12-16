@@ -1,5 +1,15 @@
 import FileUploader from "../FileUploader";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
+import { useState } from "react";
+
+function FormHeaderComponent({ value }) {
+  return (
+    <div className="mx-auto flex flex-col space-y-2">
+      <h1 className="mx-auto text-5xl font-extrabold text-gray-900">Enter the DAO race!</h1>
+      <p1 className="mx-auto">Hyperscale Application (next race in {value} days)</p1>
+    </div>
+  );
+}
 
 const ApplicationForm = ({}) => {
   const fakeFiles = ["whitepaper.pdf", "yellowpaper.pdf"];
@@ -8,14 +18,13 @@ const ApplicationForm = ({}) => {
     <div style={{ background: "#46469814" }}>
       <div className="main">
         <div className="w-3/5 mx-auto flex flex-col space-y-10 py-6">
-          <div className="mx-auto flex flex-col space-y-2">
-            <h1 className="mx-auto text-5xl font-extrabold text-gray-900">Enter the DAO race!</h1>
-            <p1 className="mx-auto">Hyperscale Application (next race in x days)</p1>
-          </div>
+          <FormHeaderComponent />
 
           <div className="py-14 px-20 rounded-lg" style={{ background: "#46469814" }}>
             <Formik
-              initialValues={{ email: "" }}
+              initialValues={{
+                links: [""],
+              }}
               validate={(values) => {
                 const errors = {};
                 if (!values.email) {
@@ -27,13 +36,14 @@ const ApplicationForm = ({}) => {
               }}
               onSubmit={(values, { setSubmitting }) => {
                 setTimeout(() => {
+                  console.log(values);
                   alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
+                  setSubmitting(true);
                 }, 400);
               }}
             >
               {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                <form className="flex flex-col space-y-6 ">
+                <form onSubmit={handleSubmit} className="flex flex-col space-y-6 ">
                   <div className="flex flex-col">
                     <label htmlFor="email" className="mb-2 font-semibold">
                       Email
@@ -72,6 +82,7 @@ const ApplicationForm = ({}) => {
                       Pitch us your project in a tweet
                     </label>
                     <textarea
+                      maxLength={280}
                       className="p-4 h-36 rounded-lg"
                       id="pitch-tweet"
                       name="pitch-tweet"
@@ -136,6 +147,7 @@ const ApplicationForm = ({}) => {
                       Is there anything else we should know about?
                     </label>
                     <textarea
+                      placeholder="Optional"
                       className="p-4 h-36 rounded-lg"
                       id="extra-info"
                       name="extra-info"
@@ -143,33 +155,53 @@ const ApplicationForm = ({}) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.extraInfo}
-                      required
                     />
                   </div>
 
                   <div className="space-y-3">
-                    <div className="flex flex-col">
+                    <div id="links-sections" className="flex flex-col space-y-2">
                       <label htmlFor="email" className="mb-2 font-semibold">
                         Do you have any links to share?
                       </label>
-                      <input
-                        placeholder="https://"
-                        className="p-6 h-6 rounded-lg"
-                        id="link"
-                        name="link"
-                        type="link"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.extraInfo}
-                        required
-                      />
+
+                      <FieldArray name="links" className="w-200">
+                        {(arrayHelpers) => {
+                          return (
+                            <>
+                              {values.links.map((_, index) => {
+                                return (
+                                  <>
+                                    <Field
+                                      name={`form.${index}`}
+                                      render={({ field }) => (
+                                        <input
+                                          {...field}
+                                          type="text"
+                                          key={index}
+                                          placeholder="https://"
+                                          className="p-6 h-6 rounded-lg"
+                                          name={`links.${index}`}
+                                        />
+                                      )}
+                                    />
+                                  </>
+                                );
+                              })}
+                              <div>
+                                <button
+                                  onClick={() => arrayHelpers.push({})}
+                                  className="p-3 mx-auto border border-indigo-600 rounded-xl text-left font-semibold"
+                                  style={{ color: "#5F75EE" }}
+                                  type="button"
+                                >
+                                  Add link
+                                </button>
+                              </div>
+                            </>
+                          );
+                        }}
+                      </FieldArray>
                     </div>
-                    <button
-                      className="p-3 mx-auto border border-indigo-600 rounded-xl text-left font-semibold"
-                      style={{ color: "#5F75EE" }}
-                    >
-                      Add link
-                    </button>
                   </div>
 
                   <div className="space-y-1">
@@ -188,7 +220,7 @@ const ApplicationForm = ({}) => {
                     </div>
 
                     <div className="container flex justify-center mx-auto" style={{ background: "green" }}>
-                      <table className="w-1/1 table-fixed hover:table-fixed" style={{ background: "red" }}>
+                      <table id="tbl" className="w-1/1 table-fixed hover:table-fixed" style={{ background: "red" }}>
                         <tbody>
                           {fakeFiles.forEach((fileName) => {
                             <div>
@@ -210,14 +242,11 @@ const ApplicationForm = ({}) => {
                         id="referral"
                         name="referral"
                         type="text"
-                        required
                       />
                     </div>
 
                     <div className="space-y-8">
                       <div className="mx-auto flex flex-row space-x-2">
-                        {/* <input className="mx-auto" type="checkbox" className=" checked:bg-blue-500" /> */}
-
                         <label className="flex mx-auto space-x-1">
                           <input className="ml-2 mr-1 mb-1 mt-1 inline-block" type="checkbox" required />
                           <span className="text-sm inline-block">
@@ -241,6 +270,7 @@ const ApplicationForm = ({}) => {
                         <button
                           style={{ background: "#5F75EE", color: "#fff" }}
                           className="w-2/4 p-3 mx-auto border border-indigo-600 rounded-xl font-bold"
+                          disabled={isSubmitting}
                         >
                           Submit
                         </button>
