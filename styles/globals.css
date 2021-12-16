@@ -72,7 +72,8 @@ h6 {
 }
 
 .dtable [data-tag="allowRowEvents"] {
-  overflow: inherit !important;
+  @apply !truncate;
+
   width: 100%;
 }
 

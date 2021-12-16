@@ -9,7 +9,7 @@ jobs:
       - name: Build the stack
         run: |
           cp docker-compose.override.yml.ci docker-compose.override.yml
-          docker-compose up -d
+          docker-compose build web
           docker container ls
       - name: Lint
-        run: docker-compose exec -T web yarn lint
+        run: docker-compose run --no-deps web yarn lint

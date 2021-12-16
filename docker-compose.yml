@@ -14,6 +14,16 @@ services:
       timeout: 10s
       start_period: 5s
 
+  firebase:
+    build:
+      context: emulators
+      dockerfile: Dockerfile.firebase
+    container_name: firebase
+    ports:
+      - 4000:4000
+      - 4400:4400
+      - 9199:9199
+
   web:
     build:
       context: .
@@ -25,8 +35,8 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      mongo:
-        condition: service_healthy
+      - mongo
+      - firebase
     env_file:
       - .env.docker.example
 
