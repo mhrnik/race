@@ -1,8 +1,8 @@
 import nextConnect from "next-connect";
 import { getApps, initializeApp } from "firebase-admin/app";
+import { v4 as uuidv4 } from "uuid";
 const { getStorage, uploadBytes, getDownloadURL } = require("firebase-admin/storage");
 const multer = require("multer");
-const UUID = require("uuid-v4");
 
 const { GOOGLE_CLOUD_PROJECT, FIREBASE_STORE_URL, FIREBASE_STORAGE_BUCKET_URL, FIREBASE_APP_ID } = process.env;
 
@@ -26,7 +26,7 @@ const uploadFile = async (req, res) => {
   const bucket = storage.bucket();
   const file = bucket.file(fileName);
 
-  let uuid = UUID();
+  let uuid = uuidv4();
   const fileStream = file.createWriteStream({
     metadata: {
       contentType: req.file.mimetype,
