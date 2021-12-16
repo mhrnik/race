@@ -1,6 +1,5 @@
 import FileUploader from "../FileUploader";
-import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
-import { useState } from "react";
+import { Formik, Field, FieldArray } from "formik";
 
 function FormHeaderComponent({ value }) {
   return (
