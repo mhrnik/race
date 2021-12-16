@@ -13,3 +13,5 @@ jobs:
           docker container ls
       - name: Lint
         run: docker-compose run --no-deps web yarn lint
+      - name: Test
+        run: docker-compose run --no-deps web yarn test

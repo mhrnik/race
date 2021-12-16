@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-const mongodbURI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!mongodbURI) {
-  throw new Error("Please define the MONGODB_URI environment variable inside .env.local");
+if (!MONGODB_URI) {
+  throw new Error("Please define the MONGODB_URI environment variable");
 }
 
 /**
@@ -18,16 +18,16 @@ if (!cache) {
 }
 
 /**
- * Establishes a connection to the mongo database.
+ * Establishes a client for a given mongo database.
  *
- * @returns Established connection
+ * @returns Mongoose client
  *
  * ## Examples
  *
- * await dbConnect();
+ * await databaseClient();
  *
  */
-async function dbConnect() {
+export default async function establishDatabaseConnection() {
   if (cache.connection) {
     return cache.connection;
   }
@@ -38,7 +38,7 @@ async function dbConnect() {
       useUnifiedTopology: false,
     };
 
-    cache.promise = mongoose.connect(mongodbURI, opts).then((mongoose) => {
+    cache.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
       return mongoose;
     });
   }
@@ -46,5 +46,3 @@ async function dbConnect() {
   cache.connection = await cache.promise;
   return cache.connection;
 }
-
-export default dbConnect;
