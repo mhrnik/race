@@ -2,6 +2,9 @@ import Layout from "../../components/Layout";
 import Leaderboard from "../../components/Leaderboard";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { getApplications } from "../../actions/applications";
+
+// components
+import Spinner from "../../components/Spinner";
 import DaoRaceCountdown from "../../components/Countdown";
 
 const breadcrumbs = [
@@ -33,6 +36,8 @@ export default function DaoRace({ projects }) {
           </button>
   </div> */}
         <Leaderboard data={projects} />
+
+        {/* <Spinner /> */}
       </Layout>
     </>
   );
