@@ -113,7 +113,6 @@ const columns = [
       <label
         className="vote-badge"
         style={{
-          background: "rgb(228, 241, 252)",
           background:
             "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
         }}
@@ -128,7 +127,13 @@ const columns = [
   },
   {
     name: "Submitted by",
-    selector: (row) => row.discordId ?? placeholderDiv,
+    selector: (row) =>
+      (
+        <div className="flex">
+          <div className="">{row.discordId.substr(0, row.discordId.indexOf("#"))}</div>
+          <div className="text-[#AEAEAE]">{row.discordId.substr(row.discordId.indexOf("#"), row.discordId.length)}</div>
+        </div>
+      ) ?? placeholderDiv,
   },
   // {
   //   name: "Date submitted",

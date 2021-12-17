@@ -88,7 +88,7 @@ export default function Home({ projects }) {
           >
             <div className="w-screen text-center max-w-7xl px-4 xl:px-0 py-16">
               <div className="text-indigo-500 uppercase mb-2">Join the race!</div>
-              <Image src="/img/hs-icon-community.png" alt="" width={134} height={134} />
+              <Image src="/img/jointherace.svg" alt="" width={134} height={134} />
               <div className="flex justify-center">
                 <h2 className="text-4xl w-screen max-w-3xl">
                   HyperscaleDAO has a strong community of contributors and advisors.
