@@ -127,13 +127,7 @@ const columns = [
   },
   {
     name: "Submitted by",
-    selector: (row) =>
-      (
-        <div className="flex">
-          <div className="">{row.discordId.substr(0, row.discordId.indexOf("#"))}</div>
-          <div className="text-[#AEAEAE]">{row.discordId.substr(row.discordId.indexOf("#"), row.discordId.length)}</div>
-        </div>
-      ) ?? placeholderDiv,
+    selector: (row) => row.discordId ?? placeholderDiv,
   },
   // {
   //   name: "Date submitted",
