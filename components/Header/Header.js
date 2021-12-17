@@ -19,7 +19,7 @@ export default function Header() {
       <Popover className="flex items-center justify-items-center justify-between">
         <Link href="/">
           <a className="flex items-center gap-x-4">
-            <Image src="/logo.svg" width="60" height="60" alt="" />
+            <Image src="/logo.svg" width="40" height="40" alt="" />
             <Image src="/hyperscale.svg" width="150" height="80" alt="" />
           </a>
         </Link>
