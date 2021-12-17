@@ -33,13 +33,12 @@ export function formatAirtableRecords(records) {
   return records.map((record) => {
     // map fields from airtable to mongoDB
     const {
-      "Email": emailAddress,
+      Email: emailAddress,
       "Project Name": projectName,
       "Pitch us your project in a tweet": projectTweet,
       "Pitch us your product": productPitch,
       "Provide some background on each founder": founderBackground,
-      "Please state evidence of exceptional ability for each founder":
-        evidenceOfExceptionalAbility,
+      "Please state evidence of exceptional ability for each founder": evidenceOfExceptionalAbility,
       "Is there anything else we should know about?": additionalDetails,
       "Helpful links": helpfulLinks,
       Referral: referral,
