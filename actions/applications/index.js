@@ -56,7 +56,7 @@ export async function getApplications(query, email) {
     console.error("Failed to get applications", error);
   }
 
-  if (aggregate.length > 0) {
+  if (aggregate && aggregate.length > 0) {
     var lastVoteCount = aggregate[0].voteCount;
     var lastRank = 1;
     aggregate.forEach(function (application, index) {
@@ -67,7 +67,7 @@ export async function getApplications(query, email) {
       application.rank = lastRank;
     });
   }
-  return aggregate;
+  return aggregate ?? [];
 }
 
 // query selected applications
