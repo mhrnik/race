@@ -34,7 +34,7 @@ export async function getApplications(query, email) {
 
         // Indicate if user has alredy voted based on email
         hasUserUpvoted: email ? { $in: [email, "$votes"] } : false,
-        userName: { $substr: ["$emailAddress", 0, { $indexOfBytes: ["$emailAddress", "@"] }] },
+        userName: "$emailAddress" ? { $substr: ["$emailAddress", 0, { $indexOfBytes: ["$emailAddress", "@"] }] } : null,
       },
     },
 
