@@ -34,11 +34,12 @@ export async function getApplications(query, email) {
 
         // Indicate if user has alredy voted based on email
         hasUserUpvoted: email ? { $in: [email, "$votes"] } : false,
+        userName: { $substr: ["$emailAddress", 0, { $indexOfBytes: ["$emailAddress", "@"] }] },
       },
     },
 
     // Don't make emails of voters public
-    { $unset: "votes" },
+    { $unset: ["votes", "emailAddress"] },
 
     // Sort by most votes first
     { $sort: { voteCount: -1 } },
@@ -64,9 +65,6 @@ export async function getApplications(query, email) {
         lastRank = lastRank + 1;
       }
       application.rank = lastRank;
-      if (!application.discordId) {
-        application.discordId = application.emailAddress.substring(0, application.emailAddress.lastIndexOf("@"));
-      }
     });
   }
   return aggregate;
