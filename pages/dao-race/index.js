@@ -21,7 +21,7 @@ export default function DaoRace({ projects }) {
           </div>
           <div className="basis-1/2 flex flex-col items-stretch space-y-2">
             <DaoRaceCountdown />
-            <span className="text-right text-gray-500 text-sm">Until next funding round</span>
+            <span className="text-right text-gray-500 text-sm">Race countdown</span>
           </div>
         </div>
         {/* <div className="basis-1/4 flex  tab-filter">
