@@ -64,6 +64,9 @@ export async function getApplications(query, email) {
         lastRank = lastRank + 1;
       }
       application.rank = lastRank;
+      if (!application.discordId) {
+        application.discordId = application.emailAddress.substring(0, application.emailAddress.lastIndexOf("@"));
+      }
     });
   }
   return aggregate;
