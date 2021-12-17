@@ -23,8 +23,8 @@ const ExpandedComponent = ({ data }) => {
           </dl>
         </div>
       </div>
-      <div className="flex gap-x-12 mb-2">
-        <div className="basis-1/3">
+      <div className="flex-row gap-x-12 mb-2">
+        <div className="basis-1/3 mb-5 md:mb-0">
           {links && (
             <ul>
               {links.map((link, i) => (
@@ -39,6 +39,7 @@ const ExpandedComponent = ({ data }) => {
         </div>
         <div className="basis-2/3">
           <Button
+            responsive="true"
             color="primary-outline"
             onClick={() => router.push({ pathname: "/dao-race/[id]", query: { id: data._id } })}
           >
@@ -104,6 +105,7 @@ const customStyles = {
 
 const columns = [
   {
+    id: "colRank",
     name: "Rank",
     selector: (row) => row.rank,
   },
@@ -124,9 +126,9 @@ const columns = [
       </label>
     ),
   },
-
   {
     name: "Name",
+    width: "140px",
     selector: (row) => row.projectName ?? placeholderDiv,
   },
   {

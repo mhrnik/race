@@ -118,11 +118,27 @@ h6 {
 }
 
 @media only screen and (max-width: 640px) {
+  [data-column-id="colRank"] {
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+  }
+
+  [data-column-id="colSdVotes"] {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+  }
+
   .rdt_TableHeadRow,
   .rdt_TableRow {
-    width: 98% !important;
-    margin-left: 0 !important;
+    width: 92% !important;
+    margin-left: 4% !important;
     margin-right: 0 !important;
+  }
+
+  .rdt_ExpanderRow {
+    margin: -15px 15px 0;
   }
 
   .text-highlight {
