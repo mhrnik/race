@@ -10,6 +10,8 @@ import { useRouter } from "next/router";
 // components
 import Footer from "../components/Footer";
 
+const numRows = 5;
+
 export default function Home({ projects }) {
   const router = useRouter();
 
@@ -65,7 +67,7 @@ export default function Home({ projects }) {
       <div className="flex justify-center">
         <div className="w-full max-w-7xl px-0 md:px-4 xl:px-0">
           <h2 className="text-4xl font-extrabold text-gray-900 text-center mt-12">Trending DAOs</h2>
-          <Leaderboard data={projects} numRows={5} />
+          <Leaderboard data={projects} numRows={numRows} />
           <div className="mt-4 text-center px-4">
             <LeaderboardButton />
           </div>
@@ -116,7 +118,7 @@ export default function Home({ projects }) {
 }
 
 export async function getServerSideProps(context) {
-  const projects = JSON.parse(JSON.stringify(await getApplications()));
+  const projects = JSON.parse(JSON.stringify(await getApplications(numRows)));
   return {
     props: {
       projects,
