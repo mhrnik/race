@@ -24,7 +24,7 @@ export default function Header() {
           </a>
         </Link>
         {/* Desktop Navigation */}
-        <div className="hidden md:flex md:items-center md:space-x-4 text-redrose">
+        <div className="hidden md:flex md:items-center space-x-0 xl:space-x-2 text-redrose">
           <a
             href="https://twitter.com/HyperscaleFund"
             className="px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-opacity-30"
