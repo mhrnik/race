@@ -25,7 +25,7 @@ export async function upsertApplications(records) {
 }
 
 // query all applications
-export async function getApplications(query, email) {
+export async function getApplications(limit, query, email) {
   const pipeline = [
     {
       $addFields: {
@@ -50,6 +50,10 @@ export async function getApplications(query, email) {
     // Sort by most votes first
     { $sort: { voteCount: -1 } },
   ];
+
+  if (limit) {
+    pipeline.push({ $limit: limit });
+  }
 
   if (query) {
     pipeline.unshift({ $match: query });
@@ -78,7 +82,7 @@ export async function getApplications(query, email) {
 
 // query selected applications
 export async function getSelectedApplications(applicationId, email) {
-  return getApplications({ _id: Types.ObjectId(applicationId) }, email);
+  return getApplications(1, { _id: Types.ObjectId(applicationId) }, email);
 }
 
 export async function addVote(applicationId, voterEmail) {
