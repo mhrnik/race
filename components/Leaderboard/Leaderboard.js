@@ -13,13 +13,13 @@ const ExpandedComponent = ({ data }) => {
         <div className="basis-1/3">
           <dl>
             <dt className="font-semibold">Pitch us your project in a tweet</dt>
-            <dd className="mb-5">{data.productPitch || "N.A."}</dd>
+            <dd className="mb-5">{data.projectTweet || "N.A."}</dd>
           </dl>
         </div>
         <div className="basis-2/3">
           <dl>
             <dt className="font-semibold">Background of each founder</dt>
-            <dd className="mb-5">{data.evidenceOfExceptionalAbility || "N.A"}</dd>
+            <dd className="mb-5">{data.founderBackground || "N.A"}</dd>
           </dl>
         </div>
       </div>
@@ -150,7 +150,7 @@ const columns = [
   {
     name: "Submitted by",
     hide: "md",
-    selector: (row) => row.discordId ?? placeholderDiv,
+    selector: (row) => row.discordId ?? row.userName ?? placeholderDiv,
   },
   // {
   //   name: "Date submitted",
