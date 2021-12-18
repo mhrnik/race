@@ -127,7 +127,7 @@ const columns = [
   },
   {
     name: "Submitted by",
-    selector: (row) => row.discordId ?? placeholderDiv,
+    selector: (row) => row.discordId ?? row.userName ?? placeholderDiv,
   },
   // {
   //   name: "Date submitted",
