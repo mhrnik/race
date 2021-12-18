@@ -2,8 +2,11 @@ import Head from "next/head";
 import Header from "../Header/Header";
 import Footer from "../../components/Footer";
 
-export default function Layout({ title = "Hyperscale", children }) {
+export default function Layout({ narrow = true, title = "Hyperscale", children }) {
   const pageTitle = title !== "Hyperscale" ? `Hyperscale - ${title}` : title;
+
+  var width = !narrow ? "" : "max-w-7xl";
+
   return (
     <>
       <Head>
@@ -29,7 +32,7 @@ export default function Layout({ title = "Hyperscale", children }) {
         </div>
       </div>
       <div className="flex justify-center">
-        <div className="w-full max-w-7xl px-0 md:px-4 xl:px-0">{children}</div>
+        <div className={`w-full ${width} px-0 md:px-4 xl:px-0`}>{children}</div>
       </div>
       <div className="mt-12">
         <Footer />
