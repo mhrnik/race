@@ -1,9 +1,8 @@
 import Application from "../../../models/Application";
-import dbConnect from "../../../utils/dbConnect";
 import { getSession } from "next-auth/react";
+import queryWithSession from "../../../utils/queryWithSession";
 
 export default async function handler(req, res) {
-  await dbConnect();
 
   if (req.method === "GET") {
     return res.status(200).send(await getApplications());
@@ -15,11 +14,14 @@ export default async function handler(req, res) {
       if (!application) {
         res.status(400).json({ error: "Malformed request", success: false });
       } else {
-        try {
-          const app = await Application.create(application);
-          res.status(201).json({ success: true, data: app });
-        } catch (error) {
+        const { result, error } = await queryWithSession((session) => {
+          Application.create(application);
+        });
+        if (error) {
           res.status(400).json({ error: error, success: false });
+        } else {
+          // might need data for email sending
+          res.status(201).json({ success: true, data: result });
         }
       }
     } else {
