@@ -33,8 +33,9 @@ const ApplicationSchema = new Schema({
     required: false,
   },
   helpfulLinks: {
-    type: String,
-    required: true,
+    type: [String],
+    required: false,
+    default: [],
   },
   founderBackground: {
     type: String,
