@@ -1,10 +1,9 @@
-import Application from "../../../models/Application"
-import dbConnect from '../../../utils/dbConnect'
-import { getSession } from "next-auth/react"
-
+import Application from "../../../models/Application";
+import dbConnect from "../../../utils/dbConnect";
+import { getSession } from "next-auth/react";
 
 export default async function handler(req, res) {
-  await dbConnect()
+  await dbConnect();
 
   if (req.method === "GET") {
     return res.status(200).send(await getApplications());
@@ -12,15 +11,15 @@ export default async function handler(req, res) {
     const session = await getSession({ req });
 
     if (session) {
-      const application = req?.body
+      const application = req?.body;
       if (!application) {
-        res.status(400).json({ error: "Malformed request", success: false })
+        res.status(400).json({ error: "Malformed request", success: false });
       } else {
         try {
-          const app = await Application.create(application)
-          res.status(201).json({ success: true, data: app })
+          const app = await Application.create(application);
+          res.status(201).json({ success: true, data: app });
         } catch (error) {
-          res.status(400).json({ error: error, success: false })
+          res.status(400).json({ error: error, success: false });
         }
       }
     } else {
