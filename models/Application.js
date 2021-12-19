@@ -33,8 +33,9 @@ const ApplicationSchema = new Schema({
     required: false,
   },
   helpfulLinks: {
-    type: String,
-    required: true,
+    type: [String],
+    required: false,
+    default: [],
   },
   founderBackground: {
     type: String,
@@ -46,7 +47,7 @@ const ApplicationSchema = new Schema({
   },
   discordId: {
     type: String,
-    required: false,
+    required: true,
   },
   votes: {
     type: [String],
