@@ -118,7 +118,7 @@ export default function Home({ projects }) {
 }
 
 export async function getServerSideProps(context) {
-  const projects = JSON.parse(JSON.stringify(await getApplications(numRows)));
+  const projects = JSON.parse(JSON.stringify(await getApplications({ limit: numRows })));
   return {
     props: {
       projects,

@@ -25,7 +25,9 @@ export async function upsertApplications(records) {
 }
 
 // query all applications
-export async function getApplications(limit, query, email) {
+export async function getApplications(options = {}) {
+  const { email, limit, order, query } = options;
+
   const pipeline = [
     {
       $match: {
@@ -67,10 +69,14 @@ export async function getApplications(limit, query, email) {
 
     // Don't make emails of voters public
     { $unset: ["votes", "emailAddress"] },
-
-    // Sort by most votes first
-    { $sort: { voteCount: -1 } },
   ];
+
+  if (order === "date") {
+    pipeline.push({ $sort: { submittedAt: -1 } });
+  } else {
+    // Sort by most votes by default
+    pipeline.push({ $sort: { voteCount: -1 } });
+  }
 
   if (limit) {
     pipeline.push({ $limit: limit });
@@ -103,7 +109,11 @@ export async function getApplications(limit, query, email) {
 
 // query selected applications
 export async function getSelectedApplications(applicationId, email) {
-  return getApplications(1, { _id: Types.ObjectId(applicationId) }, email);
+  return getApplications({
+    limit: 1,
+    query: { _id: Types.ObjectId(applicationId) },
+    email,
+  });
 }
 
 export async function addVote(applicationId, voterEmail) {
