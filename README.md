@@ -60,6 +60,8 @@ Set up:
 2. Add the redirect URI `http://localhost:3000/api/auth/callback/discord`to the Discord application (under the OAuth section)
 3. Replace XXXX with actually values from Discord application in .env.docker and rebuild the services with `docker-compose -d up --build`.
 
+`DISCORD_GUILD_ID` is the server id that user needs to be member of for successful login.
+
 ## Linting and formatting
 
 Don't forget to check your code before creating a Pull Request:
