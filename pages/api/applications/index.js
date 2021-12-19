@@ -1,4 +1,5 @@
 import Application from "../../../models/Application";
+import User from "../../../models/User";
 import { getSession } from "next-auth/react";
 import queryWithSession from "../../../utils/queryWithSession";
 
@@ -7,12 +8,12 @@ export default async function handler(req, res) {
     return res.status(200).send(await getApplications());
   } else if (req.method === "POST") {
     const session = await getSession({ req });
-
+    const user = await User.findOne({ email: session.user.email });
     if (session) {
       const body = req?.body;
       const application = {
         additionalDetails: body.additionalDetails,
-        discordId: "", // TODO: Get from session
+        discordId: user.discordId,
         emailAddress: body.emailAddress,
         evidenceOfExceptionalAbility: body.evidenceOfExceptionalAbility,
         founderBackground: body.founderBackground,
