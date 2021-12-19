@@ -47,7 +47,7 @@ const ApplicationSchema = new Schema({
   },
   discordId: {
     type: String,
-    required: false,
+    required: true,
   },
   votes: {
     type: [String],
