@@ -9,15 +9,17 @@ export default async function handler(req, res) {
   } else if (req.method === "POST") {
     const session = await getSession({ req });
     if (session) {
-      const userId = req?.body?.id;
+      const userId = req?.body?.authorDiscordId;
       const application = req?.body?.application;
 
-      if (!userId || !application) {
+      var fullApplication = { ...{authorDiscordId: userId}, ...application }
+
+      if (!userId || !application || !fullApplication) {
         res.status(400).json({ success: false })
       } else {
         try {
           const app = await Application.create(
-            application
+            fullApplication
           )
           res.status(201).json({ success: true, data: app })
         } catch (error) {
