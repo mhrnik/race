@@ -1,4 +1,3 @@
-// import { submitApplication } from "../../../actions/applications";
 import Application from "../../../models/Application"
 import dbConnect from '../../../utils/dbConnect'
 import { getSession } from "next-auth/react"
