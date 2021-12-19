@@ -6,6 +6,8 @@ import { MongoClient } from "mongodb";
 
 let clientPromise = global.mongodbPromise;
 
+const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID;
+
 if (!clientPromise) {
   const client = new MongoClient(process.env.MONGODB_URI);
   clientPromise = global.mongodbPromise = client.connect();
@@ -13,7 +15,7 @@ if (!clientPromise) {
 
 export const DISCORD_AUTH_SETTINGS = {
   url: "https://discord.com/api/oauth2/authorize?scope=",
-  scopes: ["identify", "email", "guilds", "guilds.join"],
+  scopes: ["identify", "email", "guilds.members.read"],
 };
 
 export const getAuthUrl = ({ url, scopes }) => scopes.reduce((prev, curr) => `${prev}+${curr}`, url);
@@ -44,4 +46,15 @@ export default NextAuth({
   ],
   adapter: MongoDBAdapter(clientPromise),
   secret: process.env.SECRET,
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      const response = await fetch(`https://discord.com/api/v9/users/@me/guilds/${DISCORD_GUILD_ID}/member`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${account?.access_token}`,
+        },
+      });
+      return response.ok;
+    },
+  },
 });
