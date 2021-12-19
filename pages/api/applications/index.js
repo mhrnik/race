@@ -3,7 +3,6 @@ import { getSession } from "next-auth/react";
 import queryWithSession from "../../../utils/queryWithSession";
 
 export default async function handler(req, res) {
-
   if (req.method === "GET") {
     return res.status(200).send(await getApplications());
   } else if (req.method === "POST") {
