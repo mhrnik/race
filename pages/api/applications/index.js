@@ -8,13 +8,13 @@ export default async function handler(req, res) {
   } else if (req.method === "POST") {
     const session = await getSession({ req });
 
-    if (session) {
+    // if (session) {
       const application = req?.body;
       if (!application) {
         res.status(400).json({ error: "Malformed request", success: false });
       } else {
         const { result, error } = await queryWithSession((session) => {
-          Application.create(application);
+          Application.create([application], { session });
         });
         if (error) {
           res.status(400).json({ error: error, success: false });
@@ -23,9 +23,9 @@ export default async function handler(req, res) {
           res.status(201).json({ success: true, data: result });
         }
       }
-    } else {
-      res.status(401).json({ error: "Unauthorized", success: false });
-    }
+    // } else {
+    //   res.status(401).json({ error: "Unauthorized", success: false });
+    // }
     res.end();
   } else {
     res.status(405);
