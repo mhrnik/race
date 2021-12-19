@@ -7,8 +7,8 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     return res.status(200).send(await getApplications());
   } else if (req.method === "POST") {
-    const session = await getSession({ req });
-    if (session) {
+    // const session = await getSession({ req });
+    // if (session) {
       const userId = req?.body?.authorDiscordId;
       const application = req?.body?.application;
 
@@ -26,9 +26,9 @@ export default async function handler(req, res) {
           res.status(400).json({ success: false })
         }
       }
-    } else {
-      res.status(401);
-    }
+    // } else {
+    //   res.status(401);
+    // }
     res.end();
   } else {
     res.status(405);

@@ -6,11 +6,6 @@ const ApplicationSchema = new Schema({
   id: {
     type: Schema.Types.ObjectId,
   },
-  authorDiscordId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   emailAddress: {
     type: String,
     required: true,
