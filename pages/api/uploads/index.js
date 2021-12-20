@@ -1,21 +1,23 @@
 import nextConnect from "next-connect";
-import { getApps, initializeApp } from "firebase-admin/app";
+import { getApps, initializeApp, cert } from "firebase-admin/app";
 import { v4 as uuidv4 } from "uuid";
 const { getStorage, uploadBytes, getDownloadURL } = require("firebase-admin/storage");
 const multer = require("multer");
 
-const { GOOGLE_CLOUD_PROJECT, FIREBASE_STORE_URL, FIREBASE_STORAGE_BUCKET_URL, FIREBASE_APP_ID } = process.env;
-
-const firebaseConfig = {
-  projectId: GOOGLE_CLOUD_PROJECT,
-  databaseURL: FIREBASE_STORE_URL,
-  storageBucket: FIREBASE_STORAGE_BUCKET_URL,
-  appId: FIREBASE_APP_ID,
-};
+const { GOOGLE_CLOUD_PROJECT, FIREBASE_STORAGE_BUCKET_URL } = process.env;
 
 if (!global.firebaseApp) {
+  const firebaseConfig = {
+    projectId: GOOGLE_CLOUD_PROJECT,
+    storageBucket: FIREBASE_STORAGE_BUCKET_URL,
+  };
+  if (process.env.FIREBASE_APPLICATION_CREDENTIALS) {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_APPLICATION_CREDENTIALS);
+    firebaseConfig.credential = cert(serviceAccount);
+  }
   global.firebaseApp = initializeApp(firebaseConfig);
 }
+
 const storage = getStorage(global.firebaseApp);
 
 // Add file to Storage and return the file path
@@ -29,17 +31,17 @@ const uploadFile = async (req, res) => {
   let uuid = uuidv4();
   const fileStream = file.createWriteStream({
     metadata: {
-      contentType: req.file.mimetype,
       metadata: {
+        originalName: req.file.originalname,
         firebaseStorageDownloadTokens: uuid,
       },
     },
     resumable: false,
   });
   fileStream.end(req.file.buffer);
-  console.log(`${fileName} uploaded to ${bucket.name}`);
+  console.log(`${req.file.originalname} uploaded to ${bucket.name}`);
   const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media&token=${uuid}`;
-  return fileUrl;
+  return { name: req.file.originalname, url: fileUrl };
 };
 
 const multerStorage = multer.memoryStorage();
@@ -53,8 +55,8 @@ const apiRoute = nextConnect({
   },
 });
 apiRoute.post("/api/uploads", upload.single("file"), async (req, res) => {
-  const url = await uploadFile(req, res);
-  res.status(200).json({ url: url });
+  const result = await uploadFile(req, res);
+  res.status(200).json(result);
 });
 
 export default apiRoute;
