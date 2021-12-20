@@ -12,7 +12,8 @@ if (!global.firebaseApp) {
     storageBucket: FIREBASE_STORAGE_BUCKET_URL,
   };
   if (process.env.FIREBASE_APPLICATION_CREDENTIALS) {
-    const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_APPLICATION_CREDENTIALS, "base64").toString());
+    //const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_APPLICATION_CREDENTIALS, "base64").toString());
+    const serviceAccount = JSON.parse(process.env.FIREBASE_APPLICATION_CREDENTIALS);
     firebaseConfig.credential = cert(serviceAccount);
   }
   global.firebaseApp = initializeApp(firebaseConfig);
@@ -38,8 +39,8 @@ const uploadFile = async (req, res) => {
     },
     resumable: false,
   });
-   // This is here incase any errors occur
-  fileStream.on('error', function (err) {
+  // This is here incase any errors occur
+  fileStream.on("error", function (err) {
     console.error(err);
     throw err;
   });
