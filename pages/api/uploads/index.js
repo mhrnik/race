@@ -1,7 +1,7 @@
 import nextConnect from "next-connect";
 import { getApps, initializeApp, cert } from "firebase-admin/app";
 import { v4 as uuidv4 } from "uuid";
-const { getStorage, uploadBytes, getDownloadURL } = require("firebase-admin/storage");
+const { getStorage } = require("firebase-admin/storage");
 const multer = require("multer");
 
 const { GOOGLE_CLOUD_PROJECT, FIREBASE_STORAGE_BUCKET_URL } = process.env;
@@ -14,6 +14,7 @@ if (!global.firebaseApp) {
   if (process.env.FIREBASE_APPLICATION_CREDENTIALS) {
     //const serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_APPLICATION_CREDENTIALS, "base64").toString());
     const serviceAccount = JSON.parse(process.env.FIREBASE_APPLICATION_CREDENTIALS);
+    serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
     firebaseConfig.credential = cert(serviceAccount);
   }
   global.firebaseApp = initializeApp(firebaseConfig);
@@ -44,7 +45,7 @@ const uploadFile = async (req, res) => {
     console.error(err);
     throw err;
   });
-  fileStream.end(req.file.buffer);
+  await fileStream.end(req.file.buffer);
   console.log(`${req.file.originalname} uploaded to ${bucket.name}`);
   const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media&token=${uuid}`;
   return { name: req.file.originalname, url: fileUrl };
