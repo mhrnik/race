@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 // A super simple expandable component.{JSON.stringify(data, null, 2)}
 const ExpandedComponent = ({ data }) => {
   const router = useRouter();
-  const links = data.helpfulLinks?.split(",") ?? [];
+  const links = data?.helpfulLinks ?? [];
   return (
     <div className="p-6 top-border row-child">
       <div className="flex-row md:flex gap-x-12 mb-2">
