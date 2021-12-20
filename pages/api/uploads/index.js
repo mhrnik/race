@@ -1,3 +1,4 @@
+import { getSession } from "next-auth/react";
 import nextConnect from "next-connect";
 import { getApps, initializeApp, cert } from "firebase-admin/app";
 import { v4 as uuidv4 } from "uuid";
@@ -41,29 +42,41 @@ const uploadFile = async (req, res) => {
     resumable: false,
   });
   // This is here incase any errors occur
-  fileStream.on("error", function (err) {
+  fileStream.on("error", (err) => {
     console.error(err);
-    throw err;
   });
-  await fileStream.end(req.file.buffer);
-  console.log(`${req.file.originalname} uploaded to ${bucket.name}`);
-  const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media&token=${uuid}`;
-  return { name: req.file.originalname, url: fileUrl };
+  fileStream.on("finish", (data) => {
+    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURI(
+      file.name
+    )}?alt=media&token=${uuid}`;
+    console.log(`${req.file.originalname} uploaded to ${bucket.name}`);
+    res.status(200).send({ name: req.file.originalname, url: fileUrl });
+  });
+  fileStream.end(req.file.buffer);
 };
 
 const multerStorage = multer.memoryStorage();
 const upload = multer({ storage: multerStorage });
 const apiRoute = nextConnect({
   onError(error, req, res) {
-    res.status(501).json({ error: `something went wrong ${error.message}` });
+    res.status(501).json({ error: `${error.message}` });
   },
   onNoMatch(req, res) {
     res.status(405).json({ error: `Method '${req.method}' not supported` });
   },
 });
+
 apiRoute.post("/api/uploads", upload.single("file"), async (req, res) => {
-  const result = await uploadFile(req, res);
-  res.status(200).json(result);
+  const session = await getSession({ req });
+  if (session) {
+    if (!req.file) {
+      res.status(400).send("Error: No files found");
+    } else {
+      uploadFile(req, res);
+    }
+  } else {
+    res.status(401).json({ error: "Unauthorized", success: false });
+  }
 });
 
 export default apiRoute;
