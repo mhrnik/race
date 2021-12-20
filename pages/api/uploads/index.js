@@ -38,6 +38,11 @@ const uploadFile = async (req, res) => {
     },
     resumable: false,
   });
+   // This is here incase any errors occur
+  fileStream.on('error', function (err) {
+    console.error(err);
+    throw err;
+  });
   fileStream.end(req.file.buffer);
   console.log(`${req.file.originalname} uploaded to ${bucket.name}`);
   const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media&token=${uuid}`;
