@@ -27,7 +27,7 @@ const storage = getStorage(global.firebaseApp);
 const uploadFile = async (req, res) => {
   // Grab the file
   const timestamp = Date.now();
-  const fileName = `${timestamp}_${req.file.originalname}`;
+  const fileName = `applications-uploads/${timestamp}_${req.file.originalname}`;
   const bucket = storage.bucket();
   const file = bucket.file(fileName);
 
@@ -41,12 +41,12 @@ const uploadFile = async (req, res) => {
     },
     resumable: false,
   });
-  // This is here incase any errors occur
+  // This is here in case any errors occur
   fileStream.on("error", (err) => {
     console.error(err);
   });
   fileStream.on("finish", (data) => {
-    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURI(
+    const fileUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(
       file.name
     )}?alt=media&token=${uuid}`;
     console.log(`${req.file.originalname} uploaded to ${bucket.name}`);
