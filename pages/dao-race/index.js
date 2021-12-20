@@ -1,7 +1,10 @@
+import React, { useCallback } from "react";
 import Layout from "../../components/Layout";
 import Leaderboard from "../../components/Leaderboard";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { getApplications } from "../../actions/applications";
+import { useRouter } from "next/router";
+import cx from "classnames";
 
 // components
 import Spinner from "../../components/Spinner";
@@ -12,7 +15,21 @@ const breadcrumbs = [
   { url: "", text: "DAO Race" },
 ];
 
-export default function DaoRace({ projects }) {
+export default function DaoRace({ order, projects }) {
+  const router = useRouter();
+  const setOrder = useCallback(
+    (order) => {
+      router.push({ pathname: router.pathname, query: { order } });
+    },
+    [router]
+  );
+  const setOrderByDate = useCallback(() => setOrder("date"), [setOrder]);
+  const setOrderByVotes = useCallback(() => setOrder("votes"), [setOrder]);
+
+  const activeButtonClasses =
+    "active bg-indigo-500 focus:ring-indigo-500 hover:bg-indigo-600 text-white hover:text-white-500 focus:outline-none";
+  const inactiveButtonClasses = "border-gray bg-white hover:text-gray-500 hover:bg-gray-100 focus:outline-none";
+
   return (
     <>
       <Layout title="Leaderboard">
@@ -30,14 +47,26 @@ export default function DaoRace({ projects }) {
             <p className="text-right text-gray-500 text-sm mt-2 p-2">Until next funding round</p>
           </div>
         </div>
-        {/* <div className="basis-1/4 flex  tab-filter">
-          <button className="active py-3 px-12 bg-indigo-500 items-center shadow-md rounded-l-lg hover:text-white-500 hover:bg-indigo-600 focus:outline-none text-white focus:ring-indigo-500">
+        <div className="basis-1/4 flex tab-filter mt-4">
+          <button
+            className={cx("py-3 px-12 items-center shadow-md rounded-l-lg", {
+              [activeButtonClasses]: order === "votes",
+              [inactiveButtonClasses]: order !== "votes",
+            })}
+            onClick={setOrderByVotes}
+          >
             Most voted
           </button>
-          <button className="py-3 px-12 border-gray bg-white items-center shadow-md rounded-r-lg  hover:text-gray-500 hover:bg-gray-100 focus:outline-none  ">
+          <button
+            className={cx("py-3 px-12 items-center shadow-md rounded-r-lg", {
+              [activeButtonClasses]: order === "date",
+              [inactiveButtonClasses]: order !== "date",
+            })}
+            onClick={setOrderByDate}
+          >
             Most recent
           </button>
-          </div> */}
+        </div>
         <Leaderboard data={projects} />
 
         {/* <Spinner /> */}
@@ -47,9 +76,12 @@ export default function DaoRace({ projects }) {
 }
 
 export async function getServerSideProps(context) {
-  const projects = JSON.parse(JSON.stringify(await getApplications()));
+  let order = context.query?.order === "date" ? "date" : "votes";
+
+  const projects = JSON.parse(JSON.stringify(await getApplications({ order })));
   return {
     props: {
+      order,
       projects,
     },
   };
