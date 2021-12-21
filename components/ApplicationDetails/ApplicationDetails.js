@@ -91,7 +91,7 @@ const ApplicationDetails = ({ data }) => {
             </div>
             <div className="flex flex-row">
               <div className="shadow-md flex border border-gray-300 bg-gray-100 rounded-l-lg">
-                <label className="font-semibold m-2 text-redrose font-bold text-indigo-500"> 4,210</label>
+                <label className="font-semibold m-2 text-redrose font-bold text-indigo-500">{data.voteCount}</label>
               </div>
               <button className="rounded-r-lg shadow-md rounded-r-lg   text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-500 p-2  cursor-pointer">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -200,7 +200,7 @@ const ApplicationDetails = ({ data }) => {
               </div>
               <div className="flex flex-row">
                 <div className="shadow-md flex border border-gray-300 bg-gray-100 rounded-l-lg">
-                  <label className="font-semibold m-2 text-redrose font-bold text-indigo-500"> 4,210</label>
+                  <label className="font-semibold m-2 text-redrose font-bold text-indigo-500">{data.voteCount}</label>
                 </div>
                 <button className="rounded-r-lg shadow-md rounded-r-lg   text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-500 p-2  cursor-pointer">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
