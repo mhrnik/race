@@ -24,7 +24,7 @@ const ExpandedComponent = ({ data }) => {
         </div>
       </div>
       <div className="flex-row gap-x-12 mb-2">
-        <div className="basis-1/3 mb-5 md:mb-0">
+        <div className="basis-1/3 mb-5 md:mb-2">
           {links && (
             <ul>
               {links.map((link, i) => (
