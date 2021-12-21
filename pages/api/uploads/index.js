@@ -50,7 +50,7 @@ const uploadFile = async (req, res) => {
       file.name
     )}?alt=media&token=${uuid}`;
     console.log(`${req.file.originalname} uploaded to ${bucket.name}`);
-    res.status(200).send({ name: req.file.originalname, url: fileUrl });
+    res.status(200).send({ filename: req.file.originalname, url: fileUrl, size: req.file.size });
   });
   fileStream.end(req.file.buffer);
 };
