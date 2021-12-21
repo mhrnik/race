@@ -76,18 +76,6 @@ export async function getApplications(options = {}) {
 
   if (!appDetails) {
     pipeline.push({ $unset: ["votes"] });
-  } else {
-    pipeline.push({
-      $lookup: {
-        from: "users",
-        localField: "votes",
-        foreignField: "_id",
-        pipeline: [
-          { $project: { username: { $substr: ["$discordId", 0, { $indexOfBytes: ["$discordId", "#"] }] }, _id: 0 } },
-        ],
-        as: "votes",
-      },
-    });
   }
 
   if (order === "date") {
@@ -113,6 +101,17 @@ export async function getApplications(options = {}) {
   }
 
   if (aggregate && aggregate.length > 0) {
+    if (appDetails) {
+      const { result: users, error } = await queryWithSession((session) =>
+        User.find({ _id: { $in: aggregate[0].votes } }, { discordId: 1, _id: 0 }, { session: session })
+      );
+      if (users) {
+        aggregate[0].votes = [];
+        users.forEach((user) => {
+          aggregate[0].votes.push({ username: user.discordId.substr(0, user.discordId.indexOf("#")) });
+        });
+      }
+    }
     var lastVoteCount = aggregate[0].voteCount;
     var lastRank = 1;
     aggregate.forEach(function (application, index) {
