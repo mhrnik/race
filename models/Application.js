@@ -21,7 +21,7 @@ const ApplicationSchema = new Schema({
   founderBackground: { type: String, required: true },
   evidenceOfExceptionalAbility: { type: String, required: true },
   discordId: { type: String, required: true },
-  votes: { type: [String], required: true, default: [] },
+  votes: { type: [Schema.Types.ObjectId], required: true, default: [] },
   submittedAt: { type: Date, required: true, default: Date.now },
 });
 
