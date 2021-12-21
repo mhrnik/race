@@ -56,17 +56,6 @@ export default function Home({ projects }) {
     );
   }
 
-  let ApplyButtonNav = () => {
-    return (
-      <a
-        href={airtableUrl}
-        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        Apply
-      </a>
-    );
-  };
-
   return (
     <>
       <Head>
@@ -117,15 +106,15 @@ export default function Home({ projects }) {
                   </span>
                 </h1>
                 <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                  <span>Receive up to $1M by competing in a DAO Race.</span>{" "}
-                  <span>Complete a 5 min application and be voted on by the DAO.</span>
+                  <span>Receive up to $1M by competing in the DAO Race.</span>{" "}
+                  <span>Join in 5 min and be voted on by the DAO.</span>
                 </p>
                 <div className="mt-8 sm:max-w-lg sm:mx-auto">
                   <a
                     href={airtableUrl}
                     className="inline-flex items-center px-8 py-2 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    Apply
+                    Join
                   </a>
                 </div>
               </div>
@@ -142,7 +131,7 @@ export default function Home({ projects }) {
               Stay ahead and get funded fast
             </p>
             <p className="mt-5 max-w-prose mx-auto text-xl text-gray-500">
-              Every week, DAOs with the most votes get selected for funding.
+              Every week, DAOs with the highest score get funded.
             </p>{" "}
           </div>
           <Leaderboard data={projects} numRows={numRows} />
@@ -195,11 +184,20 @@ export default function Home({ projects }) {
             We get to a decision fast so you can focus on execution.
           </p>{" "}
         </div>
-
         <div className="flex items-center justify-center pt-4 sm:pt-12 lg:pt-20">
           <img src="/timeline-sm.svg" className="md:hidden" alt="" />
           <img src="/timeline-lg.svg" className="hidden md:block" alt="" />
         </div>
+        <div className="flex justify-center column mt-4">
+          <div className="mt-8 sm:max-w-lg sm:mx-auto">
+            <a
+              href={airtableUrl}
+              className="inline-flex items-center px-8 py-2 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              Join the DAO Race
+            </a>
+          </div>
+        </div>{" "}
       </div>
       <Footer />
     </>
