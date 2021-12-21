@@ -1,4 +1,5 @@
 import Vote from "../Vote";
+import Voter from "../Voter";
 import Breadcrumbs from "../Breadcrumbs";
 import { useSession } from "next-auth/react";
 
@@ -215,9 +216,13 @@ const ApplicationDetails = ({ data }) => {
         <div className="my-5">
           <div className="uppercase font-bold mb-3">{titles.voteFor}</div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full lg:w-2/3">
-            {/* {data.voters.map((voter, i) => (
-              <Voter voter={voter.username} power={voter.power} image={voter.image} key={i} />
-            ))} */}
+            {data.votes.map((voter, i) => (
+              <Voter
+                voter={voter.username}
+                key={i}
+                //power={voter.power} image={voter.image}
+              />
+            ))}
           </div>
         </div>
       </div>
