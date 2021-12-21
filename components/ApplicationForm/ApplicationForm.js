@@ -98,6 +98,7 @@ const ApplicationForm = ({}) => {
     extraInfo: "",
     links: [""],
     referral: "",
+    helpfulUploads: [],
   };
 
   const onSubmit = (values, actions) => {
@@ -116,6 +117,7 @@ const ApplicationForm = ({}) => {
         projectName: values.projectName,
         projectTweet: values.pitchTweet,
         referral: values.referral,
+        helpfulUploads: values.helpfulUploads,
       }),
     })
       .then((response) => {
