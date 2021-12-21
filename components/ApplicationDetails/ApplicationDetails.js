@@ -110,13 +110,13 @@ const ApplicationDetails = ({ data }) => {
           <dt className="font-semibold mb-3">{titles.uploads}</dt>
           <dd className="mb-5">
             <ul className="link-list list-disc pl-5">
-              {/* {data.uploads.map((upload, i) => (
+              {data.helpfulUploads.map((upload, i) => (
                 <li key={`upload-${i}`}>
                   <a href={upload.url} target="_blank" rel="noreferrer">
-                    {upload.text}
+                    {upload.filename}
                   </a>
                 </li>
-              ))} */}
+              ))}
             </ul>
           </dd>
         </dl>
