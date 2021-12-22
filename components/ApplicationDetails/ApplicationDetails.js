@@ -133,13 +133,14 @@ const ApplicationDetails = ({ data }) => {
               <dt className="font-semibold mb-3">{titles.helpfulLink}</dt>
               <dd className="mb-5">
                 <ul className="link-list list-disc pl-5">
-                  {/* {data.helpfulLinks.split(",").map((link, i) => (
-                <li key={`link-${i}`}>
-                  <a href={link} target="_blank" rel="noreferrer">
-                    {link}
-                  </a>
-                </li>
-              ))} */}
+                  {data.helpfulLinks &&
+                    data.helpfulLinks.map((link, i) => (
+                      <li key={`link-${i}`}>
+                        <a href={link} target="_blank" rel="noreferrer">
+                          {link}
+                        </a>
+                      </li>
+                    ))}
                 </ul>
               </dd>
               <dt className="font-semibold mb-3">{titles.uploads}</dt>
