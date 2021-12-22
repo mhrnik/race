@@ -108,6 +108,7 @@ const columns = [
     id: "colRank",
     name: "Rank",
     selector: (row) => row.rank,
+    maxWidth: "75px",
   },
   {
     id: "colLdVotes",
@@ -124,10 +125,11 @@ const columns = [
         {row.voteCount}
       </label>
     ),
+    maxWidth: "100px",
   },
   {
+    id: "colName",
     name: "Name",
-    width: "140px",
     selector: (row) => row.projectName ?? placeholderDiv,
   },
   {
