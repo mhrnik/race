@@ -1,4 +1,6 @@
-export default function Button({ el, size, responsive, color, onClick, href, target, children }) {
+import cx from "classnames";
+
+export default function Button({ el, size, responsive, color, onClick, href, target, children, className }) {
   let classes = ["text-redrose", "font-bold", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2"];
   if (size === "large") {
     classes.push("py-3", "px-12", "rounded-xl", "text-lg");
@@ -26,13 +28,13 @@ export default function Button({ el, size, responsive, color, onClick, href, tar
     );
   }
   let element = (
-    <button className={classes.join(" ")} onClick={onClick}>
+    <button className={cx(classes, className)} onClick={onClick}>
       {children}
     </button>
   );
   if (el === "a") {
     element = (
-      <a className={classes.join(" ")} href={href} target={target}>
+      <a className={cx(classes, className)} href={href} target={target}>
         {children}
       </a>
     );

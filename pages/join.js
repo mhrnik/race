@@ -1,28 +1,30 @@
 import Layout from "../components/Layout";
+import AuthenticationGate from "../components/AuthenticationGate";
 import ApplicationForm from "../components/ApplicationForm/ApplicationForm";
 import { getSession } from "next-auth/react";
 
-export default function Apply({}) {
+export default function Join({ userSession }) {
   return (
-    <div>
+    <AuthenticationGate userSession={userSession}>
       <Layout narrow={false} className="w-screen px-4 xl:px-0 px-4 xl:px-0">
         <ApplicationForm />
       </Layout>
-    </div>
+    </AuthenticationGate>
   );
 }
 
 export async function getServerSideProps(context) {
-  const userSession = await getSession(context);
-  if (!userSession) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
+  let userSession = null;
+
+  try {
+    userSession = await getSession(context);
+  } catch (error) {
+    console.error(error);
   }
+
   return {
-    props: { userSession },
+    props: {
+      userSession,
+    },
   };
 }
