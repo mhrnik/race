@@ -23,7 +23,7 @@ const ExpandedComponent = ({ data }) => {
           </dl>
         </div>
       </div>
-      <div className="flex-row gap-x-12 mb-2">
+      <div className="md:flex gap-x-12 mb-2">
         <div className="basis-1/3 mb-5 md:mb-2">
           {links && (
             <ul>
@@ -108,12 +108,10 @@ const columns = [
     id: "colRank",
     name: "Rank",
     selector: (row) => row.rank,
-    maxWidth: "75px",
   },
   {
     id: "colLdVotes",
     name: "Votes",
-
     selector: (row) => (
       <label
         className="vote-badge"
@@ -125,7 +123,6 @@ const columns = [
         {row.voteCount}
       </label>
     ),
-    maxWidth: "100px",
   },
   {
     id: "colName",
@@ -135,7 +132,6 @@ const columns = [
   {
     id: "colSdVotes",
     name: "Votes",
-
     selector: (row) => (
       <label
         className="vote-badge"
@@ -150,6 +146,7 @@ const columns = [
     ),
   },
   {
+    id: "colSubmittedBy",
     name: "Submitted by",
     hide: "md",
     selector: (row) => row.discordId ?? row.userName ?? placeholderDiv,

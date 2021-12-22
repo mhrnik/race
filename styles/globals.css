@@ -113,6 +113,19 @@ button.font-normal {
   color: #5f75ee;
 }
 
+[data-column-id="colRank"],
+[data-column-id="colLdVotes"] {
+  width: 100px !important;
+  min-width: 100px !important;
+  max-width: 100px !important;
+}
+
+[data-column-id="colSubmittedBy"] {
+  width: 250px !important;
+  min-width: 250px !important;
+  max-width: 250px !important;
+}
+
 [data-column-id="colSdVotes"] {
   display: none !important;
 }
@@ -135,15 +148,13 @@ button.font-normal {
   }
 
   [data-column-id="colSdVotes"] {
-    width: 50px !important;
-    min-width: 50px !important;
-    max-width: 50px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
   }
 
   [data-column-id="colName"] {
-    width: 140px !important;
-    min-width: 140px !important;
-    max-width: 140px !important;
+    max-width: 180px !important;
   }
 
   .rdt_TableHeadRow,
