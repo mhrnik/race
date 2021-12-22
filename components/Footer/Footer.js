@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="w-full bg-[#FBFBFF] flex justify-center px-4 py-6 md:py-10">
       <div className="w-screen max-w-7xl flex flex-wrap justify-center px-3">
-        <div className="flex justify-center md:justify-start grow basis-full md:basis-1">
+        <div className="flex items-center justify-center md:justify-start grow basis-full md:basis-1">
           <a
             href=""
             className="rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-opacity-30"
@@ -17,7 +17,7 @@ const Footer = () => {
           >
             Home
           </a>{" "}
-          <div className="w-4 mx-4">
+          <div className="w-4 mx-4 pt-1">
             <Image src={Backslash} height="" alt=""></Image>
           </div>
           <a
@@ -28,7 +28,7 @@ const Footer = () => {
           >
             Twitter
           </a>
-          <div className="w-4 mx-4">
+          <div className="w-4 mx-4 pt-1">
             <Image src={Backslash} height="" alt=""></Image>
           </div>
           <a
