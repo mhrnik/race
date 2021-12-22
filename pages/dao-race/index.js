@@ -47,7 +47,7 @@ export default function DaoRace({ order, projects }) {
             <p className="text-right text-gray-500 text-sm mt-2 p-2">Until next funding round</p>
           </div>
         </div>
-        <div className="basis-1/4 flex tab-filter mt-4">
+        <div className="basis-1/4 flex tab-filter mt-4 px-4 md:px-0">
           <button
             className={cx("py-3 px-12 items-center shadow-md rounded-l-lg", {
               [activeButtonClasses]: order === "votes",

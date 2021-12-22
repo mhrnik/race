@@ -140,6 +140,12 @@ button.font-normal {
     max-width: 50px !important;
   }
 
+  [data-column-id="colName"] {
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+  }
+
   .rdt_TableHeadRow,
   .rdt_TableRow {
     width: 92% !important;
