@@ -13,6 +13,9 @@ export default function Button({ el, size, responsive, color, onClick, href, tar
   if (color === "primary") {
     classes.push("text-white", "bg-indigo-500", "hover:bg-indigo-600", "focus:ring-indigo-500");
   }
+  if (color === "gray") {
+    classes.push("text-gray-600", "border", "border-gray-300", "bg-gray-100", "hover:bg-gray-200");
+  }
   if (responsive === "true") {
     classes.push("w-full", "sm:w-max");
   }
