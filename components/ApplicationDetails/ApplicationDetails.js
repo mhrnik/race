@@ -106,7 +106,12 @@ const ApplicationDetails = ({ data }) => {
               </div>
             </div>
             {/* this is just an if statement that checks if a user session exists */}
-            {session && <Vote voteCount={voteCount} onVote={onVote} applicationId={data._id} />}
+            <Vote
+              voteCount={voteCount}
+              onVote={onVote}
+              applicationId={data._id}
+              isUserAuthenticated={session ? true : false}
+            />
           </div>
         </div>
         <div className="flex flex-col md:flex-row">
@@ -186,7 +191,12 @@ const ApplicationDetails = ({ data }) => {
                 </div>
               </div>
               {/* this is just an if statement that checks if a user session exists */}
-              {session && <Vote voteCount={voteCount} onVote={onVote} applicationId={data._id} />}
+              <Vote
+                voteCount={voteCount}
+                onVote={onVote}
+                applicationId={data._id}
+                isUserAuthenticated={session ? true : false}
+              />
             </div>
           </div>
         </div>
