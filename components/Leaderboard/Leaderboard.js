@@ -113,7 +113,8 @@ const columns = [
     id: "colLdVotes",
     name: "Votes",
     selector: (row) => (
-      <label
+      <div className="vote-action flex flex-row rounded-lg">
+        {/* <label
         className="vote-badge"
         style={{
           background:
@@ -121,7 +122,28 @@ const columns = [
         }}
       >
         {row.voteCount}
-      </label>
+      </label> */}
+        <div
+          className="flex rounded-l-lg py-2 px-4"
+          style={{
+            background:
+              "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
+          }}
+        >
+          <label className="font-semibold font-bold ">{row.voteCount}</label>
+        </div>
+        <button
+          className="rounded-r-lg  hover:text-indigo-500 p-2"
+          style={{
+            background:
+              "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21V3M12 3L5 10M12 3L19 10" stroke="currentColor" strokeWidth="2"></path>
+          </svg>
+        </button>
+      </div>
     ),
   },
   {
@@ -133,16 +155,28 @@ const columns = [
     id: "colSdVotes",
     name: "Votes",
     selector: (row) => (
-      <label
-        className="vote-badge"
-        style={{
-          background: "rgb(228, 241, 252)",
-          background:
-            "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
-        }}
-      >
-        {row.voteCount}
-      </label>
+      <div className="vote-action flex flex-row rounded-lg">
+        <div
+          className="flex rounded-l-lg py-2 px-4"
+          style={{
+            background:
+              "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
+          }}
+        >
+          <label className="font-semibold font-bold ">{row.voteCount}</label>
+        </div>
+        <button
+          className="rounded-r-lg  hover:text-indigo-500 p-2"
+          style={{
+            background:
+              "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21V3M12 3L5 10M12 3L19 10" stroke="currentColor" strokeWidth="2"></path>
+          </svg>
+        </button>
+      </div>
     ),
   },
   {
