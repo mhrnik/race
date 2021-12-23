@@ -81,12 +81,6 @@ button.font-normal {
   width: 100%;
 }
 
-.dtable .vote-badge {
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  display: inline-block;
-}
-
 .top-border {
   border-top: 1px #0000001f solid;
 }

@@ -36,25 +36,9 @@ const FlagButton = ({ onClick = () => console.log("flag") }) => (
 );
 
 const ApplicationDetails = ({ data }) => {
-  const { data: session, status } = useSession();
+  const { status: sessionStatus } = useSession();
+  const isUserAuthenticated = sessionStatus === "authenticated";
   const [voteCount, setVoteCount] = useState(data.voteCount);
-  const [isUservoted, setUservoted] = useState(false);
-
-  async function onVote(applicationId) {
-    if (!isUservoted) {
-      const res = await fetch(`/api/vote`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: applicationId,
-        }),
-      });
-      setVoteCount(voteCount + 1);
-      setUservoted(true);
-    }
-  }
 
   const breadcrumbs = [
     { url: "/", text: "Home" },
@@ -108,9 +92,10 @@ const ApplicationDetails = ({ data }) => {
             {/* this is just an if statement that checks if a user session exists */}
             <Vote
               voteCount={voteCount}
-              onVote={onVote}
+              setVoteCount={setVoteCount}
               applicationId={data._id}
-              isUserAuthenticated={session ? true : false}
+              isUserAuthenticated={isUserAuthenticated}
+              variant="simple"
             />
           </div>
         </div>
@@ -193,9 +178,9 @@ const ApplicationDetails = ({ data }) => {
               {/* this is just an if statement that checks if a user session exists */}
               <Vote
                 voteCount={voteCount}
-                onVote={onVote}
+                setVoteCount={setVoteCount}
                 applicationId={data._id}
-                isUserAuthenticated={session ? true : false}
+                isUserAuthenticated={isUserAuthenticated}
               />
             </div>
           </div>
