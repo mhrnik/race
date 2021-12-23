@@ -1,14 +1,14 @@
-export default function Vote({ applicationId, voteCount, onVote, isUserlogged }) {
+export default function Vote({ applicationId, voteCount, onVote, isUserAuthenticated }) {
   return (
     <div className="flex flex-row shadow-md rounded-lg">
       <div className="flex border border-gray-300 bg-gray-100 rounded-l-lg py-2 px-4">
         <label className="font-semibold font-bold text-indigo-500">{voteCount}</label>
       </div>
       <button
-        disabled={!isUserlogged}
+        disabled={!isUserAuthenticated}
         className={
           "rounded-r-lg text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-500 p-2 " +
-          (isUserlogged ? "cursor-pointer" : "cursor-not-allowed")
+          (isUserAuthenticated ? "cursor-pointer" : "cursor-not-allowed")
         }
         onClick={() => onVote(applicationId)}
       >
