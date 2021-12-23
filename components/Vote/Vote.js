@@ -1,3 +1,4 @@
+import cx from "classnames";
 export default function Vote({ applicationId, voteCount, onVote, isUserAuthenticated }) {
   return (
     <div className="flex flex-row shadow-md rounded-lg">
@@ -6,10 +7,12 @@ export default function Vote({ applicationId, voteCount, onVote, isUserAuthentic
       </div>
       <button
         disabled={!isUserAuthenticated}
-        className={
-          "rounded-r-lg text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-500 p-2 " +
-          (isUserAuthenticated ? "cursor-pointer" : "cursor-not-allowed")
-        }
+        className={cx(
+          "rounded-r-lg text-white bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-500 p-2 cursor-pointer",
+          {
+            "cursor-not-allowed": !isUserAuthenticated,
+          }
+        )}
         onClick={() => onVote(applicationId)}
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
