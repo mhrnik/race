@@ -1,12 +1,14 @@
+import React from "react";
 import "../styles/globals.css";
-import { Web3ReactProvider } from "@web3-react/core";
 import { SessionProvider } from "next-auth/react";
-import Web3 from "web3";
+import type { AppProps } from "next/app";
 
-function getLibrary(provider) {
-  return new Web3(provider);
-}
+// import Web3 from "web3";
+// function getLibrary(provider) {
+//  return new Web3(provider);
+// }
 
+// import { Web3ReactProvider } from "@web3-react/core";
 // we can return to this when we want to integrate metamask
 // function MyApp({ Component, pageProps }) {
 //   return (
@@ -19,7 +21,7 @@ function getLibrary(provider) {
 //   )
 // }
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />

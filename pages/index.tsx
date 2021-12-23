@@ -1,27 +1,13 @@
+import React from "react";
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Header from "../components/Header";
-import Explanation from "../components/Explanation";
 import Leaderboard from "../components/Leaderboard";
 import { getApplications } from "../actions/applications";
 import Button from "../components/atoms/Button";
 import { useRouter } from "next/router";
-import { MenuIcon, XIcon, MapIcon, LightningBoltIcon, UserGroupIcon } from "@heroicons/react/outline";
-import { Popover, Transition } from "@headlessui/react";
-
-// react
-import { Fragment } from "react";
-import Image from "next/image";
-
-// next
-import Link from "next/link";
-
-// components
+import { MapIcon, LightningBoltIcon, UserGroupIcon } from "@heroicons/react/outline";
 import Footer from "../components/Footer";
-
-const navigation = [
-  { name: "Discord", href: "https://discord.com/invite/pVSbzYny2c" },
-  { name: "Twitter", href: "https://twitter.com/HyperscaleFund" },
-];
 
 const airtableUrl = "https://airtable.com/shrLFCXD7BQXUg97K";
 
@@ -45,12 +31,16 @@ const features = [
 
 const numRows = 5;
 
-export default function Home({ projects }) {
+type Props = {
+  projects: any;
+};
+
+const Home: React.FunctionComponent<Props> = ({ projects }) => {
   const router = useRouter();
 
   function LeaderboardButton() {
     return (
-      <Button size="large" color="dark" responsive="true" onClick={() => router.push({ pathname: "/dao-race" })}>
+      <Button size="large" color="dark" responsive onClick={() => router.push({ pathname: "/dao-race" })}>
         Leaderboard
       </Button>
     );
@@ -202,13 +192,15 @@ export default function Home({ projects }) {
       <Footer />
     </>
   );
-}
+};
 
-export async function getServerSideProps(context) {
-  const projects = JSON.parse(JSON.stringify(await getApplications({ limit: numRows })));
+export const getServerSideProps: GetServerSideProps<Props> = async (_context) => {
+  const projects = await getApplications({ limit: numRows });
   return {
     props: {
       projects,
     },
   };
-}
+};
+
+export default Home;

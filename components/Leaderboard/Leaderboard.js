@@ -41,7 +41,7 @@ const ExpandedComponent = ({ data }) => {
         </div>
         <div className="basis-2/3">
           <Button
-            responsive="true"
+            responsive
             color="primary-outline"
             onClick={() => router.push({ pathname: "/dao-race/[id]", query: { id: data._id } })}
           >
