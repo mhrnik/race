@@ -1,6 +1,28 @@
+import React from "react";
 import cx from "classnames";
 
-export default function Button({ el, size, responsive, color, onClick, href, target, children, className }) {
+type Props = {
+  el?: "a";
+  size?: "large";
+  responsive?: boolean;
+  color?: "dark" | "primary" | "gray" | "primary-outline";
+  onClick: () => void;
+  href?: string;
+  target?: string;
+  className?: string;
+};
+
+const Button: React.FunctionComponent<Props> = ({
+  el,
+  size,
+  responsive,
+  color,
+  onClick,
+  href,
+  target,
+  children,
+  className,
+}) => {
   let classes = ["text-redrose", "font-bold", "focus:outline-none", "focus:ring-2", "focus:ring-offset-2"];
   if (size === "large") {
     classes.push("py-3", "px-12", "rounded-xl", "text-lg");
@@ -16,7 +38,7 @@ export default function Button({ el, size, responsive, color, onClick, href, tar
   if (color === "gray") {
     classes.push("text-gray-600", "border", "border-gray-300", "bg-gray-100", "hover:bg-gray-200");
   }
-  if (responsive === "true") {
+  if (responsive) {
     classes.push("w-full", "sm:w-max");
   }
   if (color === "primary-outline") {
@@ -43,4 +65,6 @@ export default function Button({ el, size, responsive, color, onClick, href, tar
     );
   }
   return element;
-}
+};
+
+export default Button;
