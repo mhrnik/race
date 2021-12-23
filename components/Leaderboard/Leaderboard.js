@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import Button from "../atoms/Button";
+import Vote from "../Vote";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 // A super simple expandable component.{JSON.stringify(data, null, 2)}
 const ExpandedComponent = ({ data }) => {
@@ -103,60 +105,6 @@ const customStyles = {
   },
 };
 
-const columns = [
-  {
-    id: "colRank",
-    name: "Rank",
-    selector: (row) => row.rank,
-  },
-  {
-    id: "colLdVotes",
-    name: "Votes",
-    selector: (row) => (
-      <label
-        className="vote-badge"
-        style={{
-          background:
-            "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
-        }}
-      >
-        {row.voteCount}
-      </label>
-    ),
-  },
-  {
-    id: "colName",
-    name: "Name",
-    selector: (row) => row.projectName ?? placeholderDiv,
-  },
-  {
-    id: "colSdVotes",
-    name: "Votes",
-    selector: (row) => (
-      <label
-        className="vote-badge"
-        style={{
-          background: "rgb(228, 241, 252)",
-          background:
-            "linear-gradient(90deg,rgba(228, 241, 252, 100%) 0%,rgba(218, 223, 252, 100%) 35%,rgba(236, 229, 249, 100%) 100%)",
-        }}
-      >
-        {row.voteCount}
-      </label>
-    ),
-  },
-  {
-    id: "colSubmittedBy",
-    name: "Submitted by",
-    hide: "md",
-    selector: (row) => row.discordId ?? row.userName ?? placeholderDiv,
-  },
-  // {
-  //   name: "Date submitted",
-  //   selector: (row) => row.submittedAt,
-  // },
-];
-
 const placeholderDiv = (
   <div
     className="h-3 w-3/5 animate-pulse"
@@ -166,11 +114,62 @@ const placeholderDiv = (
   ></div>
 );
 
+const VotesRow = ({ isUserAuthenticated, row }) => {
+  const [voteCount, setVoteCount] = useState(row.voteCount);
+
+  return (
+    <Vote
+      voteCount={voteCount}
+      setVoteCount={setVoteCount}
+      applicationId={row._id}
+      isUserAuthenticated={isUserAuthenticated}
+      variant="vibrant"
+    />
+  );
+};
+
 const Leaderboard = ({ data, numRows }) => {
+  const { status: sessionStatus } = useSession();
+  const isUserAuthenticated = sessionStatus === "authenticated";
+
   let rows = JSON.parse(JSON.stringify(data));
   if (numRows) {
     rows = rows.slice(0, numRows);
   }
+
+  const columns = [
+    {
+      id: "colRank",
+      name: "Rank",
+      selector: (row) => row.rank,
+    },
+    {
+      id: "colLdVotes",
+      name: "Votes",
+      selector: (row) => <VotesRow row={row} isUserAuthenticated={isUserAuthenticated} />,
+    },
+    {
+      id: "colName",
+      name: "Name",
+      selector: (row) => row.projectName ?? placeholderDiv,
+    },
+    {
+      id: "colSdVotes",
+      name: "Votes",
+      selector: (row) => <VotesRow row={row} isUserAuthenticated={isUserAuthenticated} />,
+    },
+    {
+      id: "colSubmittedBy",
+      name: "Submitted by",
+      hide: "md",
+      selector: (row) => row.discordId ?? row.userName ?? placeholderDiv,
+    },
+    // {
+    //   name: "Date submitted",
+    //   selector: (row) => row.submittedAt,
+    // },
+  ];
+
   return (
     <div className="leaderboard-list">
       <div className="dtable">

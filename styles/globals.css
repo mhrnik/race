@@ -71,12 +71,6 @@ button.font-normal {
   border: none;
 }
 
-.dtable button:active,
-.dtable button:focus,
-.dtable button:hover {
-  background: none !important;
-}
-
 .dtable a {
   color: #6366f1;
 }
@@ -85,12 +79,6 @@ button.font-normal {
   @apply !truncate;
 
   width: 100%;
-}
-
-.dtable .vote-badge {
-  border-radius: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  display: inline-block;
 }
 
 .top-border {
@@ -113,11 +101,16 @@ button.font-normal {
   color: #5f75ee;
 }
 
-[data-column-id="colRank"],
-[data-column-id="colLdVotes"] {
+[data-column-id="colRank"] {
   width: 100px !important;
   min-width: 100px !important;
   max-width: 100px !important;
+}
+
+[data-column-id="colLdVotes"] {
+  width: 140px !important;
+  min-width: 140px !important;
+  max-width: 140px !important;
 }
 
 [data-column-id="colSubmittedBy"] {
@@ -148,9 +141,9 @@ button.font-normal {
   }
 
   [data-column-id="colSdVotes"] {
-    width: 60px !important;
-    min-width: 60px !important;
-    max-width: 60px !important;
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
   }
 
   [data-column-id="colName"] {
