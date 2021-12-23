@@ -7,8 +7,8 @@ function loginWithDiscord() {
   return signIn("discord");
 }
 
-const AuthenticationGate = ({ userSession, children }) => {
-  const isAuthenticated = userSession?.status === "authenticated";
+const AuthenticationGate = ({ sessionStatus, children }) => {
+  const isAuthenticated = sessionStatus === "authenticated";
 
   return (
     <>
