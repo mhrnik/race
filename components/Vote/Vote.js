@@ -1,8 +1,4 @@
-export default function Vote({ applicationId, voteCount, onVote, userSession }) {
-  let isUserlogged = false;
-  if (userSession) {
-    isUserlogged = true;
-  }
+export default function Vote({ applicationId, voteCount, onVote, isUserlogged }) {
   return (
     <div className="flex flex-row shadow-md rounded-lg">
       <div className="flex border border-gray-300 bg-gray-100 rounded-l-lg py-2 px-4">
