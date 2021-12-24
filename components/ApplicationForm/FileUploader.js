@@ -64,6 +64,8 @@ export class FileUploader extends React.Component {
         (x) => x.filename !== removedFile.name
       );
     });
+
+    document.getElementsByClassName("dz-preview-multiple")[0].innerHTML = "";
   }
 
   render() {
