@@ -198,7 +198,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (_context) =>
   const projects = await getApplications({ limit: numRows });
   return {
     props: {
-      projects,
+      projects: JSON.parse(JSON.stringify(projects)),
     },
   };
 };
