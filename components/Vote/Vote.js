@@ -4,28 +4,31 @@ import cx from "classnames";
 // TODO: When transitioning to typescript, variant can be either 'vibrant' or 'simple'
 export default function Vote({ applicationId, voteCount, isUserAuthenticated, variant, setVoteCount }) {
   const [isLoading, setLoading] = useState(false);
-
+  const [isUserVoted, setUservoted] = useState(false);
   const onVote = useCallback(async () => {
     setLoading(true);
-    try {
-      const res = await fetch(`/api/vote`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: applicationId,
-        }),
-      });
+    if (!isUserVoted) {
+      try {
+        const res = await fetch(`/api/vote`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: applicationId,
+          }),
+        });
 
-      if (res.ok) {
-        setVoteCount(voteCount + 1);
+        if (res.ok) {
+          setUservoted(true);
+          setVoteCount(voteCount + 1);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
     setLoading(false);
-  }, [applicationId, voteCount, setLoading, setVoteCount]);
+  }, [applicationId, voteCount, setLoading, setVoteCount, isUserVoted]);
 
   const ArrowButton = () => (
     <button
