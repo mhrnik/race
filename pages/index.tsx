@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { MapIcon, LightningBoltIcon, UserGroupIcon } from "@heroicons/react/outline";
 import Footer from "../components/Footer";
 
-const airtableUrl = "https://airtable.com/shrLFCXD7BQXUg97K";
+const airtableUrl = "/join";
 
 const features = [
   {
