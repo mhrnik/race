@@ -55,11 +55,10 @@ export default NextAuth({
           Authorization: `Bearer ${account?.access_token}`,
         },
       });
-      //Event.create({
-      //  type: "signIn",
-      //  data: { user: user, providerAccountId: account.providerAccountId },
-      //  userId: user.id,
-      //});
+      Event.create({
+        type: "signIn",
+        data: { user: user, providerAccountId: account.providerAccountId },
+      });
       return response.ok;
     },
   },
