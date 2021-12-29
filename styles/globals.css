@@ -101,6 +101,15 @@ button.font-normal {
   color: #5f75ee;
 }
 
+.rdt_TableRow:hover {
+  background-color: #fcfcfc;
+}
+
+.rdt_TableRow:hover [data-column-id="colName"],
+.rdt_TableRow:hover > div > button {
+  color: #5f75ee;
+}
+
 [data-column-id="colRank"] {
   width: 100px !important;
   min-width: 100px !important;
