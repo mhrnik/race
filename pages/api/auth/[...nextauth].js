@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import DiscordProvider from "next-auth/providers/discord";
+import Event from "../../../models/Event";
 
 import { MongoClient } from "mongodb";
 
@@ -53,6 +54,11 @@ export default NextAuth({
         headers: {
           Authorization: `Bearer ${account?.access_token}`,
         },
+      });
+      Event.create({
+        type: "signIn",
+        data: { user: user, providerAccountId: account.providerAccountId },
+        userId: user.id,
       });
       return response.ok;
     },
