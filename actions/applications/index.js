@@ -1,5 +1,6 @@
 import Application from "../../models/Application";
 import User from "../../models/User";
+import Event from "../../models/Event";
 import queryWithSession from "../../utils/queryWithSession";
 import { Types } from "mongoose";
 
@@ -157,5 +158,11 @@ export async function updateVote(applicationId, voterEmail, upsert) {
     return;
   }
 
+  queryWithSession((dbSession) =>
+    Event.create(
+      { type: "vote", data: { applicationId: applicationId, user: user }, userId: user._id },
+      { session: dbSession }
+    )
+  );
   return app;
 }
