@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const Spinner:React.FunctionComponent = () => {
+const Spinner: React.FunctionComponent = () => {
   return (
     <div
       style={{
