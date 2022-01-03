@@ -10,41 +10,40 @@ function CountdownElem({ value, label }) {
 }
 
 function Countdown({ until, paused }) {
-
   if (paused) {
     return (
       <div className="flex-1 flex pb-12 h-10 flex-row justify-end space-x-10 md:flex-row p-5">
         <h2 className="text-4xl font-extrabold text-gray-900">DAO Race Paused</h2>
       </div>
     );
-  }
+  } else {
+    // Update the countdown every 1 second
+    const [timeLeft, setTimeLeft] = useState(until - new Date());
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setTimeLeft(until - new Date());
+      }, 1000);
+      return () => clearInterval(interval);
+    }, [until]);
 
-  // Update the countdown every 1 second
-  const [timeLeft, setTimeLeft] = useState(until - new Date());
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft(until - new Date());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [until]);
+    // Get component parts
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-  // Get component parts
-  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-  return (
-    <div className="flex flex-col">
-      <div className="flex-1 flex flex-row justify-end space-x-2">
-        <CountdownElem value={days} label={days === 1 ? "Day" : "Days"} />
-        <CountdownElem value={hours} label={hours === 1 ? "Hour" : "Hours"} />
-        <CountdownElem value={minutes} label={minutes === 1 ? "Minute" : "Minutes"} />
-        <CountdownElem value={seconds} label={seconds === 1 ? "Second" : "Seconds"} />
+    return (
+      <div className="flex flex-col">
+        <div className="flex-1 flex flex-row justify-end space-x-2">
+          <CountdownElem value={days} label={days === 1 ? "Day" : "Days"} />
+          <CountdownElem value={hours} label={hours === 1 ? "Hour" : "Hours"} />
+          <CountdownElem value={minutes} label={minutes === 1 ? "Minute" : "Minutes"} />
+          <CountdownElem value={seconds} label={seconds === 1 ? "Second" : "Seconds"} />
+        </div>
+        <p className="text-right text-gray-500 text-sm mt-2 p-2">Until next funding round</p>
       </div>
-      <p className="text-right text-gray-500 text-sm mt-2 p-2">Until next funding round</p>
-    </div>
-  );
+    );
+  }
 }
 
 function getNextDate(epoch, intervalDays, currentDate) {
@@ -75,7 +74,7 @@ function DaoRaceCountdown() {
     return () => clearInterval(interval);
   }, [epoch, intervalDays, nextRaceAt]);
 
-  return <Countdown until={nextRaceAt} paused={nextRaceAt!=null} />;
+  return <Countdown until={nextRaceAt} paused={nextRaceAt !== null} />;
 }
 
 export default DaoRaceCountdown;
