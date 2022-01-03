@@ -10,7 +10,6 @@ function CountdownElem({ value, label }) {
 }
 
 function Countdown({ until, paused }) {
-
   // Update the countdown every 1 second
   const [timeLeft, setTimeLeft] = useState(until - new Date());
   useEffect(() => {
