@@ -12,13 +12,12 @@ function CountdownElem({ value, label }) {
 function Countdown({ until, paused }) {
   // Update the countdown every 1 second
   const [timeLeft, setTimeLeft] = useState(until - new Date());
+
   useEffect(() => {
-    if (!paused) {
-      const interval = setInterval(() => {
-        setTimeLeft(until - new Date());
-      }, 1000);
-      return () => clearInterval(interval);
-    }
+    const interval = setInterval(() => {
+      setTimeLeft(until - new Date());
+    }, 1000);
+    return () => clearInterval(interval);
   }, [until]);
 
   if (paused) {
@@ -76,7 +75,7 @@ function DaoRaceCountdown() {
     return () => clearInterval(interval);
   }, [epoch, intervalDays, nextRaceAt]);
 
-  return <Countdown until={nextRaceAt} paused={nextRaceAt !== null} />;
+  return <Countdown until={nextRaceAt} paused={nextRaceAt != null} />;
 }
 
 export default DaoRaceCountdown;
