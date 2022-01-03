@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Header from "../Header/Header";
-import Footer from "../../components/Footer";
+import Footer from "../Footer";
 
 export default function Layout({ narrow = true, title = "Hyperscale", children }) {
   const pageTitle = title !== "Hyperscale" ? `Hyperscale - ${title}` : title;
